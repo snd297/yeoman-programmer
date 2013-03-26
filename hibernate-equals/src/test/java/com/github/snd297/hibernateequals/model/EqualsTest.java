@@ -70,6 +70,8 @@ public class EqualsTest {
 
 			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
 
+			assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
+
 			trx.get().commit();
 		} catch (Exception e) {
 			PersistenceUtil.rollbackQuietly(trx);

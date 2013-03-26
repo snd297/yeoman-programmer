@@ -15,12 +15,14 @@
  */
 package com.github.snd297.hibernateequals.model;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
 import com.google.common.base.Objects;
 
+@Entity
 public class BrokenEqualsCar extends LongIdAndVersion {
 	private String vin;
 

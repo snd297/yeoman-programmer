@@ -1,11 +1,13 @@
 package com.github.snd297.hibernateequals.model;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
 import com.google.common.base.Objects;
 
+@Entity
 public class Car extends LongIdAndVersion {
 	private String vin;
 
@@ -24,10 +26,10 @@ public class Car extends LongIdAndVersion {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof BrokenEqualsCar)) {
+		if (!(obj instanceof Car)) {
 			return false;
 		}
-		BrokenEqualsCar other = (BrokenEqualsCar) obj;
+		Car other = (Car) obj;
 		if (!Objects.equal(this.vin, other.getVin())) {
 			return false;
 		}

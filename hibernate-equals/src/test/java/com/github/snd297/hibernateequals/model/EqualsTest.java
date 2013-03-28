@@ -22,8 +22,8 @@ public class EqualsTest {
 		Optional<Session> sessOpt = Optional.absent();
 		Optional<Transaction> trx = Optional.absent();
 		try {
-			sessOpt = Optional.of(HibernateUtil.getSessionFactory()
-					.openSession());
+			sessOpt =
+					Optional.of(HibernateUtil.getSessionFactory().openSession());
 			Session sess = sessOpt.get();
 
 			trx = Optional.of(sess.beginTransaction());
@@ -54,8 +54,8 @@ public class EqualsTest {
 		Optional<Session> sessOpt = Optional.absent();
 		Optional<Transaction> trx = Optional.absent();
 		try {
-			sessOpt = Optional.of(HibernateUtil.getSessionFactory()
-					.openSession());
+			sessOpt =
+					Optional.of(HibernateUtil.getSessionFactory().openSession());
 			Session sess = sessOpt.get();
 			trx = Optional.of(sess.beginTransaction());
 
@@ -86,8 +86,8 @@ public class EqualsTest {
 		Optional<Session> sessOpt = Optional.absent();
 		Optional<Transaction> trx = Optional.absent();
 		try {
-			sessOpt = Optional.of(
-					HibernateUtil.getSessionFactory().openSession());
+			sessOpt =
+					Optional.of(HibernateUtil.getSessionFactory().openSession());
 			Session sess = sessOpt.get();
 			trx = Optional.of(sess.beginTransaction());
 

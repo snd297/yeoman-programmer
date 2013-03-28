@@ -20,8 +20,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.google.common.base.Objects;
-
 @Entity
 public class BrokenEqualsCar extends LongIdAndVersion {
 	private String vin;
@@ -45,7 +43,11 @@ public class BrokenEqualsCar extends LongIdAndVersion {
 			return false;
 		}
 		BrokenEqualsCar other = (BrokenEqualsCar) obj;
-		if (!Objects.equal(this.vin, other.vin)) {
+		if (vin == null) {
+			if (other.vin != null) {
+				return false;
+			}
+		} else if (!vin.equals(other.vin)) {
 			return false;
 		}
 		return true;

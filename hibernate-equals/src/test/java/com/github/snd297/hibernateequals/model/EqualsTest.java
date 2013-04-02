@@ -100,6 +100,7 @@ public class EqualsTest {
 			Car car1 = new Car(carVin);
 
 			assertTrue(car1.equals(car0));
+			assertTrue(car0.equals(car1));
 
 			trx.get().commit();
 		} catch (Exception e) {

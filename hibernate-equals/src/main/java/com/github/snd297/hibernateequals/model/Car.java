@@ -26,6 +26,7 @@ import com.google.common.base.Objects;
 @Entity
 public class Car extends LongIdAndVersion {
 	private String vin;
+	private String someField;
 
 	/** For JPA. */
 	Car() {}
@@ -69,5 +70,13 @@ public class Car extends LongIdAndVersion {
 	@SuppressWarnings("unused")
 	private void setVin(String vin) {
 		this.vin = vin;
+	}
+
+	public String getSomeField() {
+		return someField;
+	}
+
+	public void setSomeField(String someField) {
+		this.someField = someField;
 	}
 }

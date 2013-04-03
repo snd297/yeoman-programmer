@@ -14,6 +14,7 @@ import com.google.common.base.Optional;
 
 public class EqualsTest {
 
+	private static String getClassCarVin;
 	private static String brokenEqualsCarVin;
 	private static String carVin;
 
@@ -28,6 +29,10 @@ public class EqualsTest {
 
 			trx = Optional.of(sess.beginTransaction());
 
+			GetClassCar getClassCar =
+					new GetClassCar("H94H878YUIOHFGOH");
+			sess.save(getClassCar);
+
 			BrokenEqualsCar brokenEqualsCar =
 					new BrokenEqualsCar("J398D8305HKDHG");
 
@@ -38,9 +43,41 @@ public class EqualsTest {
 
 			trx.get().commit();
 
+			getClassCarVin = getClassCar.getVin();
 			brokenEqualsCarVin = brokenEqualsCar.getVin();
 			carVin = car.getVin();
 
+		} catch (Exception e) {
+			PersistenceUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			PersistenceUtil.closeQuietly(sessOpt);
+		}
+	}
+
+	@Test
+	public void getClassEquals() throws Exception {
+		Optional<Session> sessOpt = Optional.absent();
+		Optional<Transaction> trx = Optional.absent();
+		try {
+			sessOpt =
+					Optional.of(HibernateUtil.getSessionFactory().openSession());
+			Session sess = sessOpt.get();
+			trx = Optional.of(sess.beginTransaction());
+
+			GetClassCar getClassCar0 =
+					(GetClassCar)
+					sess
+							.bySimpleNaturalId(GetClassCar.class)
+							.getReference(getClassCarVin);
+
+			GetClassCar getClassCar1 =
+					new GetClassCar(getClassCarVin);
+
+			assertFalse(getClassCar1.equals(getClassCar0));
+			assertTrue(getClassCar0.equals(getClassCar1));
+
+			trx.get().commit();
 		} catch (Exception e) {
 			PersistenceUtil.rollbackQuietly(trx);
 			throw e;
@@ -69,8 +106,8 @@ public class EqualsTest {
 					new BrokenEqualsCar(brokenEqualsCarVin);
 
 			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
-
 			assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
+			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
 
 			trx.get().commit();
 		} catch (Exception e) {

@@ -28,14 +28,6 @@ public class GetClassCar extends LongIdAndVersion {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		GetClassCar other = (GetClassCar) obj;
-		if (vin == null) {
-			if (other.vin != null) {
-				return false;
-			}
-		} else if (!vin.equals(other.vin)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -57,4 +49,5 @@ public class GetClassCar extends LongIdAndVersion {
 	private void setVin(String vin) {
 		this.vin = vin;
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.github.snd297.hibernateequals.model;
 
-import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
@@ -28,14 +27,14 @@ public class GetClassCar extends LongIdAndVersion {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-//		GetClassCar other = (GetClassCar) obj;
-//		if (vin == null) {
-//			if (other.vin != null) {
-//				return false;
-//			}
-//		} else if (!vin.equals(other.vin)) {
-//			return false;
-//		}
+		// GetClassCar other = (GetClassCar) obj;
+		// if (vin == null) {
+		// if (other.vin != null) {
+		// return false;
+		// }
+		// } else if (!vin.equals(other.vin)) {
+		// return false;
+		// }
 		return true;
 	}
 

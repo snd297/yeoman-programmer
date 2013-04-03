@@ -18,7 +18,7 @@ public class GetClassCar extends LongIdAndVersion {
 	}
 
 	@Override
-	public boolean equals(@Nullable Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -28,6 +28,14 @@ public class GetClassCar extends LongIdAndVersion {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
+//		GetClassCar other = (GetClassCar) obj;
+//		if (vin == null) {
+//			if (other.vin != null) {
+//				return false;
+//			}
+//		} else if (!vin.equals(other.vin)) {
+//			return false;
+//		}
 		return true;
 	}
 

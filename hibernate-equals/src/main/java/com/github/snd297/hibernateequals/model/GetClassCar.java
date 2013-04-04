@@ -8,6 +8,7 @@ import org.hibernate.annotations.NaturalId;
 @Entity
 public class GetClassCar extends LongIdAndVersion {
 	private String vin;
+	private String someField;
 
 	/** For JPA. */
 	GetClassCar() {}
@@ -55,6 +56,14 @@ public class GetClassCar extends LongIdAndVersion {
 	@SuppressWarnings("unused")
 	private void setVin(String vin) {
 		this.vin = vin;
+	}
+
+	public String getSomeField() {
+		return someField;
+	}
+
+	public void setSomeField(String someField) {
+		this.someField = someField;
 	}
 
 }

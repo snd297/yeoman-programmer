@@ -3,6 +3,7 @@ package com.github.snd297.hibernateequals.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.BeforeClass;
@@ -31,6 +32,7 @@ public class EqualsTest {
 
 			GetClassCar getClassCar =
 					new GetClassCar("H94H878YUIOHFGOH");
+			getClassCar.setSomeField("value");
 			sess.save(getClassCar);
 
 			BrokenEqualsCar brokenEqualsCar =

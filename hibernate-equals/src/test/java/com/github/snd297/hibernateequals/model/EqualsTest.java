@@ -3,9 +3,9 @@ package com.github.snd297.hibernateequals.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.proxy.HibernateProxy;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -72,10 +72,10 @@ public class EqualsTest {
 					sess
 							.bySimpleNaturalId(GetClassCar.class)
 							.getReference(getClassCarVin);
-
 			GetClassCar getClassCar1 =
 					new GetClassCar(getClassCarVin);
 
+			assertTrue(getClassCar0 instanceof HibernateProxy);
 			assertFalse(getClassCar1.equals(getClassCar0));
 			assertTrue(getClassCar0.equals(getClassCar1));
 
@@ -107,9 +107,9 @@ public class EqualsTest {
 			BrokenEqualsCar brokenEqualsCar1 =
 					new BrokenEqualsCar(brokenEqualsCarVin);
 
+			assertTrue(brokenEqualsCar0 instanceof HibernateProxy);
 			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
 			assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
-			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
 
 			trx.get().commit();
 		} catch (Exception e) {
@@ -138,6 +138,7 @@ public class EqualsTest {
 
 			Car car1 = new Car(carVin);
 
+			assertTrue(car0 instanceof HibernateProxy);
 			assertTrue(car1.equals(car0));
 			assertTrue(car0.equals(car1));
 

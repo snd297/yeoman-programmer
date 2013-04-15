@@ -41,6 +41,7 @@ public class EqualsTest {
 			sess.save(brokenEqualsCar);
 
 			Car car = new Car("KH08934U508YTUSZ0IDYGOAIH");
+			car.setSomeField("someField");
 			sess.save(car);
 
 			trx.get().commit();
@@ -141,6 +142,7 @@ public class EqualsTest {
 			assertTrue(car0 instanceof HibernateProxy);
 			assertTrue(car1.equals(car0));
 			assertTrue(car0.equals(car1));
+			String aField = car0.getSomeField();
 
 			trx.get().commit();
 		} catch (Exception e) {

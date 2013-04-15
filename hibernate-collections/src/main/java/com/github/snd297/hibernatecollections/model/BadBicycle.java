@@ -1,5 +1,3 @@
-package com.github.snd297.hibernatecollections.model;
-
 /*
  * Copyright 2013 Sam Donnelly
  *
@@ -15,6 +13,8 @@ package com.github.snd297.hibernatecollections.model;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.github.snd297.hibernatecollections.model;
 
 import static com.google.common.collect.Sets.newHashSet;
 

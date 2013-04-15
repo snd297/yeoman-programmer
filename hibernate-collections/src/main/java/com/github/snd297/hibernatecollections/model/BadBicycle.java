@@ -1,4 +1,4 @@
-package com.github.snd297.hibernatecollections;
+package com.github.snd297.hibernatecollections.model;
 
 /*
  * Copyright 2013 Sam Donnelly

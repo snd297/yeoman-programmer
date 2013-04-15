@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 @ParametersAreNonnullByDefault
-package com.github.snd297.hibernatecollections;
+package com.github.snd297.hibernatecollections.persistence;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

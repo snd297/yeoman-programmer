@@ -15,11 +15,16 @@
  */
 package com.github.snd297.hibernatecollections.persistence;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.ImprovedNamingStrategy;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
-@SuppressWarnings("deprecation")
+import com.google.common.base.Optional;
+
 public class HibernateUtil {
 
 	private static SessionFactory sessionFactory;
@@ -29,15 +34,39 @@ public class HibernateUtil {
 			Configuration config = new Configuration();
 			config.setNamingStrategy(new ImprovedNamingStrategy());
 			config.configure();
-			sessionFactory = config.buildSessionFactory();
+			ServiceRegistry serviceRegistry =
+					new ServiceRegistryBuilder()
+							.applySettings(config.getProperties())
+							.buildServiceRegistry();
+			sessionFactory = config.buildSessionFactory(serviceRegistry);
 		} catch (Throwable t) {
 			t.printStackTrace();
 			throw new ExceptionInInitializerError(t);
 		}
 	}
 
+	public static void closeQuietly(Optional<Session> sess) {
+		try {
+			if (sess.isPresent() && sess.get().isOpen()) {
+				sess.get().close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+
+	public static void rollbackQuietly(Optional<Transaction> trx) {
+		try {
+			if (trx.isPresent() && trx.get().isActive()) {
+				trx.get().rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private HibernateUtil() {

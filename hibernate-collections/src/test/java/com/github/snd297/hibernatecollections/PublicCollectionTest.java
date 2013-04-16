@@ -1,5 +1,23 @@
+/*
+ * Copyright 2013 Sam Donnelly
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.snd297.hibernatecollections;
 
+import static com.google.common.base.Predicates.compose;
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,6 +33,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.snd297.hibernatecollections.model.BadBicycle;
+import com.github.snd297.hibernatecollections.model.IHasLongId;
 import com.github.snd297.hibernatecollections.model.WheelInBadBicycle;
 import com.github.snd297.hibernatecollections.persistence.HibernateUtil;
 import com.google.common.base.Optional;
@@ -56,8 +75,8 @@ public class PublicCollectionTest {
 		assertNotNull(badBicycleId);
 		Optional<Session> sess = Optional.absent();
 		Optional<Transaction> trx = Optional.absent();
-		Optional<Long> newWheel0Id = Optional.absent(), newWheel1Id = Optional
-				.absent();
+		Optional<Long> newWheel0Id =
+				Optional.absent(), newWheel1Id = Optional.absent();
 		try {
 			sess =
 					Optional.of(HibernateUtil.getSessionFactory().openSession());
@@ -84,7 +103,6 @@ public class PublicCollectionTest {
 			try {
 				trx.get().commit();
 			} catch (HibernateException he) {
-				he.printStackTrace();
 				assertTrue(he
 						.getMessage()
 						.equals(
@@ -111,9 +129,14 @@ public class PublicCollectionTest {
 
 			BadBicycle bicycle =
 					(BadBicycle) sess.get().get(BadBicycle.class, badBicycleId);
-
 			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
 			assertEquals(2, wheels.size());
+			assertNotNull(find(wheels,
+					compose(equalTo(newWheel0Id.get()),
+							IHasLongId.getId), null));
+			assertNotNull(find(wheels,
+					compose(equalTo(newWheel1Id.get()),
+							IHasLongId.getId), null));
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
 			throw e;

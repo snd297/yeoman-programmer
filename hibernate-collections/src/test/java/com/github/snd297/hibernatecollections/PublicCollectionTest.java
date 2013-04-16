@@ -53,10 +53,10 @@ public class PublicCollectionTest {
 			trx = Optional.of(sess.get().beginTransaction());
 
 			BadBicycle badBicycle = new BadBicycle();
+			new WheelInBadBicycle(badBicycle);
+			new WheelInBadBicycle(badBicycle);
 
 			sess.get().save(badBicycle);
-			sess.get().save(new WheelInBadBicycle(badBicycle));
-			sess.get().save(new WheelInBadBicycle(badBicycle));
 
 			trx.get().commit();
 

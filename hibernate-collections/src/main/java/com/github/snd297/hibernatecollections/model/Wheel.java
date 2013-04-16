@@ -16,8 +16,28 @@
 package com.github.snd297.hibernatecollections.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Wheel extends LongIdAndVersion {
+	private Bicycle bicycle;
 
+	/** For JPA */
+	Wheel() {}
+
+	public Wheel(Bicycle bicycle) {
+		this.bicycle = bicycle;
+	}
+
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Bicycle getBicycle() {
+		return bicycle;
+	}
+
+	public void setBicycle(Bicycle bicycle) {
+		this.bicycle = bicycle;
+	}
 }

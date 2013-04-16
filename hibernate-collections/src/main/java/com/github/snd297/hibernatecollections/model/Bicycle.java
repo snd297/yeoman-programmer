@@ -15,9 +15,33 @@
  */
 package com.github.snd297.hibernatecollections.model;
 
+import static com.google.common.collect.Sets.newHashSet;
+
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Bicycle extends LongIdAndVersion {
-	
+	private Set<Wheel> wheels = newHashSet();
+
+	@OneToMany(
+			mappedBy = "bicycle",
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
+	@Size(max = 2)
+	public Set<Wheel> getWheels() {
+		return wheels;
+	}
+
+	@SuppressWarnings("unused")
+	private void setWheels(Set<Wheel> wheels) {
+		this.wheels = wheels;
+	}
+
 }

@@ -15,6 +15,8 @@
  */
 package com.github.snd297.hibernatecollections.persistence;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,13 +26,17 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 
+@ThreadSafe
 public class HibernateUtil {
 
-	private static SessionFactory sessionFactory;
+	private static class SessionFactorySupplier
+			implements Supplier<SessionFactory> {
 
-	static {
-		try {
+		@Override
+		public SessionFactory get() {
 			Configuration config = new Configuration();
 			config.setNamingStrategy(new ImprovedNamingStrategy());
 			config.configure();
@@ -38,12 +44,14 @@ public class HibernateUtil {
 					new ServiceRegistryBuilder()
 							.applySettings(config.getProperties())
 							.buildServiceRegistry();
-			sessionFactory = config.buildSessionFactory(serviceRegistry);
-		} catch (Throwable t) {
-			t.printStackTrace();
-			throw new ExceptionInInitializerError(t);
+			SessionFactory sessionFactory =
+					config.buildSessionFactory(serviceRegistry);
+			return sessionFactory;
 		}
 	}
+
+	private static Supplier<SessionFactory> sessFacSupplier =
+			Suppliers.memoize(new SessionFactorySupplier());
 
 	public static void closeQuietly(Optional<Session> sess) {
 		try {
@@ -56,7 +64,7 @@ public class HibernateUtil {
 	}
 
 	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return sessFacSupplier.get();
 	}
 
 	public static void rollbackQuietly(Optional<Transaction> trx) {

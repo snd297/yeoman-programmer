@@ -33,14 +33,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.snd297.hibernatecollections.model.BadBicycle;
+import com.github.snd297.hibernatecollections.model.Bicycle;
 import com.github.snd297.hibernatecollections.model.IHasLongId;
+import com.github.snd297.hibernatecollections.model.Wheel;
 import com.github.snd297.hibernatecollections.model.WheelInBadBicycle;
 import com.github.snd297.hibernatecollections.persistence.HibernateUtil;
 import com.google.common.base.Optional;
 
 public class PublicCollectionTest {
 
-	private static Long badBicycleId;
+	private static Optional<Long> badBicycleId;
+	private static Optional<Long> bicycleId;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -58,9 +61,14 @@ public class PublicCollectionTest {
 
 			sess.get().save(badBicycle);
 
+			Bicycle bicycle = new Bicycle();
+			new Wheel(bicycle);
+			new Wheel(bicycle);
+
 			trx.get().commit();
 
-			badBicycleId = badBicycle.getId();
+			badBicycleId = Optional.of(badBicycle.getId());
+			bicycleId = Optional.of(bicycle.getId());
 
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
@@ -72,7 +80,8 @@ public class PublicCollectionTest {
 
 	@Test(expected = HibernateException.class)
 	public void test() throws Exception {
-		assertNotNull(badBicycleId);
+		assertTrue(badBicycleId.isPresent());
+		assertTrue(bicycleId.isPresent());
 		Optional<Session> sess = Optional.absent();
 		Optional<Transaction> trx = Optional.absent();
 		Optional<Long> newWheel0Id =
@@ -84,8 +93,10 @@ public class PublicCollectionTest {
 			trx = Optional.of(sess.get().beginTransaction());
 
 			BadBicycle bicycle =
-					(BadBicycle) sess.get().get(BadBicycle.class, badBicycleId);
-
+					(BadBicycle) sess.get().get(
+							BadBicycle.class,
+							badBicycleId.get());
+			
 			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
 			assertEquals(2, wheels.size());
 

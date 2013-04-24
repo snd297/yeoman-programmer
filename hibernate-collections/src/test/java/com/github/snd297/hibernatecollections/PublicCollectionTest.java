@@ -80,7 +80,6 @@ public class PublicCollectionTest {
 	public void orphanedCollection() throws Exception {
 		Session sess = null;
 		Transaction trx = null;
-		Long newWheel0Id, newWheel1Id;
 		try {
 			sess = HibernateUtil.getSessionFactory().openSession();
 

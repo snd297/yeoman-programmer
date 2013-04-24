@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.snd297</groupId>
 	<artifactId>hibernate-equals</artifactId>
-	<version>1.4</version>
+	<version>1.5-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>

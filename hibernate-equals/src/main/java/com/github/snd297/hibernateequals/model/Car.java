@@ -72,12 +72,4 @@ public class Car extends LongIdAndVersion {
 		this.vin = vin;
 	}
 
-	public String getSomeField() {
-		return someField;
-	}
-
-	public void setSomeField(String someField) {
-		this.someField = someField;
-	}
-
 }

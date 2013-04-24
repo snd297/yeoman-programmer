@@ -52,7 +52,6 @@ public class EqualsTest {
 			sess.save(brokenEqualsCar);
 
 			Car car = new Car("KH08934U508YTUSZ0IDYGOAIH");
-			car.setSomeField("someField");
 			sess.save(car);
 
 			trx.commit();

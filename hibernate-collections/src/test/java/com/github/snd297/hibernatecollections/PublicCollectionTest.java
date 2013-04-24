@@ -38,37 +38,35 @@ import com.github.snd297.hibernatecollections.model.IHasLongId;
 import com.github.snd297.hibernatecollections.model.Wheel;
 import com.github.snd297.hibernatecollections.model.WheelInBadBicycle;
 import com.github.snd297.hibernatecollections.persistence.HibernateUtil;
-import com.google.common.base.Optional;
 
 public class PublicCollectionTest {
 
-	private static Optional<Long> badBicycleId;
-	private static Optional<Long> bicycleId;
+	private static Long badBicycleId;
+	private static Long bicycleId;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		Optional<Session> sess = Optional.absent();
-		Optional<Transaction> trx = Optional.absent();
+		Session sess = null;
+		Transaction trx = null;
 		try {
-			sess =
-					Optional.of(HibernateUtil.getSessionFactory().openSession());
+			sess = HibernateUtil.getSessionFactory().openSession();
 
-			trx = Optional.of(sess.get().beginTransaction());
+			trx = sess.beginTransaction();
 
 			BadBicycle badBicycle = new BadBicycle();
 			new WheelInBadBicycle(badBicycle);
 			new WheelInBadBicycle(badBicycle);
 
-			sess.get().save(badBicycle);
+			sess.save(badBicycle);
 
 			Bicycle bicycle = new Bicycle();
 			new Wheel(bicycle);
 			new Wheel(bicycle);
 
-			trx.get().commit();
+			trx.commit();
 
-			badBicycleId = Optional.of(badBicycle.getId());
-			bicycleId = Optional.of(bicycle.getId());
+			badBicycleId = badBicycle.getId();
+			bicycleId = bicycle.getId();
 
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
@@ -80,31 +78,27 @@ public class PublicCollectionTest {
 
 	@Test(expected = HibernateException.class)
 	public void test() throws Exception {
-		assertTrue(badBicycleId.isPresent());
-		assertTrue(bicycleId.isPresent());
-		Optional<Session> sess = Optional.absent();
-		Optional<Transaction> trx = Optional.absent();
-		Optional<Long> newWheel0Id =
-				Optional.absent(), newWheel1Id = Optional.absent();
+		Session sess = null;
+		Transaction trx = null;
+		Long newWheel0Id, newWheel1Id;
 		try {
-			sess =
-					Optional.of(HibernateUtil.getSessionFactory().openSession());
+			sess = HibernateUtil.getSessionFactory().openSession();
 
-			trx = Optional.of(sess.get().beginTransaction());
+			trx = sess.beginTransaction();
 
 			BadBicycle bicycle =
-					(BadBicycle) sess.get().get(
+					(BadBicycle) sess.get(
 							BadBicycle.class,
-							badBicycleId.get());
-			
+							badBicycleId);
+
 			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
 			assertEquals(2, wheels.size());
 
 			WheelInBadBicycle newWheel0 = new WheelInBadBicycle(bicycle);
 			WheelInBadBicycle newWheel1 = new WheelInBadBicycle(bicycle);
 
-			sess.get().save(newWheel0);
-			sess.get().save(newWheel1);
+			sess.save(newWheel0);
+			sess.save(newWheel1);
 			assertTrue(wheels instanceof PersistentCollection);
 
 			Set<WheelInBadBicycle> newWheels =
@@ -112,7 +106,7 @@ public class PublicCollectionTest {
 
 			bicycle.setWheels(newWheels);
 			try {
-				trx.get().commit();
+				trx.commit();
 			} catch (HibernateException he) {
 				assertTrue(he
 						.getMessage()
@@ -120,8 +114,8 @@ public class PublicCollectionTest {
 								"A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.hibernatecollections.model.BadBicycle.wheels"));
 				throw he;
 			}
-			newWheel0Id = Optional.of(newWheel0.getId());
-			newWheel1Id = Optional.of(newWheel1.getId());
+			newWheel0Id = newWheel0.getId();
+			newWheel1Id = newWheel1.getId();
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
 			throw e;
@@ -129,24 +123,20 @@ public class PublicCollectionTest {
 			HibernateUtil.closeQuietly(sess);
 		}
 
-		assertTrue(newWheel0Id.isPresent());
-		assertTrue(newWheel1Id.isPresent());
-
 		try {
-			sess =
-					Optional.of(HibernateUtil.getSessionFactory().openSession());
+			sess = HibernateUtil.getSessionFactory().openSession();
 
-			trx = Optional.of(sess.get().beginTransaction());
+			trx = sess.beginTransaction();
 
 			BadBicycle bicycle =
-					(BadBicycle) sess.get().get(BadBicycle.class, badBicycleId);
+					(BadBicycle) sess.get(BadBicycle.class, badBicycleId);
 			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
 			assertEquals(2, wheels.size());
 			assertNotNull(find(wheels,
-					compose(equalTo(newWheel0Id.get()),
+					compose(equalTo(newWheel0Id),
 							IHasLongId.getId), null));
 			assertNotNull(find(wheels,
-					compose(equalTo(newWheel1Id.get()),
+					compose(equalTo(newWheel1Id),
 							IHasLongId.getId), null));
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);

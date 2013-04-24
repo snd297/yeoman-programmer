@@ -15,6 +15,7 @@
  */
 package com.github.snd297.hibernatecollections.persistence;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.hibernate.Session;
@@ -25,7 +26,6 @@ import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
@@ -53,10 +53,10 @@ public class HibernateUtil {
 	private static Supplier<SessionFactory> sessFacSupplier =
 			Suppliers.memoize(new SessionFactorySupplier());
 
-	public static void closeQuietly(Optional<Session> sess) {
+	public static void closeQuietly(@Nullable Session sess) {
 		try {
-			if (sess.isPresent() && sess.get().isOpen()) {
-				sess.get().close();
+			if (sess != null && sess.isOpen()) {
+				sess.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,10 +67,10 @@ public class HibernateUtil {
 		return sessFacSupplier.get();
 	}
 
-	public static void rollbackQuietly(Optional<Transaction> trx) {
+	public static void rollbackQuietly(@Nullable Transaction trx) {
 		try {
-			if (trx.isPresent() && trx.get().isActive()) {
-				trx.get().rollback();
+			if (trx != null && trx.isActive()) {
+				trx.rollback();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

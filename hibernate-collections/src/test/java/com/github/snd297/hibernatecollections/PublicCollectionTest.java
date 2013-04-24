@@ -54,14 +54,14 @@ public class PublicCollectionTest {
 			trx = sess.beginTransaction();
 
 			BadBicycle badBicycle = new BadBicycle();
-			new WheelInBadBicycle(badBicycle);
-			new WheelInBadBicycle(badBicycle);
-
 			sess.save(badBicycle);
+			sess.save(new WheelInBadBicycle(badBicycle));
+			sess.save(new WheelInBadBicycle(badBicycle));
 
 			Bicycle bicycle = new Bicycle();
-			new Wheel(bicycle);
-			new Wheel(bicycle);
+			sess.save(bicycle);
+			sess.save(new Wheel(bicycle));
+			sess.save(new Wheel(bicycle));
 
 			trx.commit();
 
@@ -77,7 +77,7 @@ public class PublicCollectionTest {
 	}
 
 	@Test(expected = HibernateException.class)
-	public void test() throws Exception {
+	public void orphanedCollection() throws Exception {
 		Session sess = null;
 		Transaction trx = null;
 		Long newWheel0Id, newWheel1Id;
@@ -92,14 +92,13 @@ public class PublicCollectionTest {
 							badBicycleId);
 
 			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
-			assertEquals(2, wheels.size());
+			assertTrue(wheels instanceof PersistentCollection);
 
 			WheelInBadBicycle newWheel0 = new WheelInBadBicycle(bicycle);
 			WheelInBadBicycle newWheel1 = new WheelInBadBicycle(bicycle);
 
 			sess.save(newWheel0);
 			sess.save(newWheel1);
-			assertTrue(wheels instanceof PersistentCollection);
 
 			Set<WheelInBadBicycle> newWheels =
 					newHashSet(newWheel0, newWheel1);
@@ -114,8 +113,47 @@ public class PublicCollectionTest {
 								"A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.hibernatecollections.model.BadBicycle.wheels"));
 				throw he;
 			}
+
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
+
+	@Test
+	public void fixedCollection() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		Long newWheel0Id = null;
+		Long newWheel1Id = null;
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+
+			trx = sess.beginTransaction();
+
+			Bicycle bicycle =
+					(Bicycle) sess.get(Bicycle.class, bicycleId);
+			Set<Wheel> wheels = bicycle.getWheels();
+
+			assertTrue(wheels instanceof PersistentCollection);
+
+			Wheel newWheel0 = new Wheel(bicycle);
+			Wheel newWheel1 = new Wheel(bicycle);
+
+			sess.save(newWheel0);
+			sess.save(newWheel1);
+
+			Set<Wheel> newWheels = newHashSet(newWheel0, newWheel1);
+
+			bicycle.getWheels().clear();
+			bicycle.getWheels().addAll(newWheels);
+			trx.commit();
+
 			newWheel0Id = newWheel0.getId();
 			newWheel1Id = newWheel1.getId();
+
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
 			throw e;
@@ -128,21 +166,27 @@ public class PublicCollectionTest {
 
 			trx = sess.beginTransaction();
 
-			BadBicycle bicycle =
-					(BadBicycle) sess.get(BadBicycle.class, badBicycleId);
-			Set<WheelInBadBicycle> wheels = bicycle.getWheels();
+			Bicycle bicycle =
+					(Bicycle) sess.get(Bicycle.class, bicycleId);
+			Set<Wheel> wheels = bicycle.getWheels();
+
 			assertEquals(2, wheels.size());
+
 			assertNotNull(find(wheels,
 					compose(equalTo(newWheel0Id),
 							IHasLongId.getId), null));
+
 			assertNotNull(find(wheels,
 					compose(equalTo(newWheel1Id),
 							IHasLongId.getId), null));
+
+			trx.commit();
 		} catch (Exception e) {
 			HibernateUtil.rollbackQuietly(trx);
 			throw e;
 		} finally {
 			HibernateUtil.closeQuietly(sess);
 		}
+
 	}
 }

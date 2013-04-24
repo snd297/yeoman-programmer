@@ -134,7 +134,7 @@ public class PublicCollectionTest {
 			trx = sess.beginTransaction();
 
 			Bicycle bicycle =
-					(Bicycle) sess.get(Bicycle.class, bicycleId);
+					(Bicycle) sess.load(Bicycle.class, bicycleId);
 			Set<Wheel> wheels = bicycle.getWheels();
 
 			assertTrue(wheels instanceof PersistentCollection);
@@ -167,7 +167,7 @@ public class PublicCollectionTest {
 			trx = sess.beginTransaction();
 
 			Bicycle bicycle =
-					(Bicycle) sess.get(Bicycle.class, bicycleId);
+					(Bicycle) sess.load(Bicycle.class, bicycleId);
 			Set<Wheel> wheels = bicycle.getWheels();
 
 			assertEquals(2, wheels.size());

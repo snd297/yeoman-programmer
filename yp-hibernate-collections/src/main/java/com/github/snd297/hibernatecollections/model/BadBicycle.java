@@ -20,6 +20,7 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -27,19 +28,20 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class BadBicycle extends LongIdAndVersion {
-	private Set<WheelInBadBicycle> wheels = newHashSet();
+  private Set<WheelInBadBicycle> wheels = newHashSet();
 
-	@OneToMany(
-			mappedBy = "bicycle",
-			fetch = FetchType.EAGER,
-			orphanRemoval = true)
-	@Size(max = 2)
-	public Set<WheelInBadBicycle> getWheels() {
-		return wheels;
-	}
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      mappedBy = "bicycle",
+      fetch = FetchType.EAGER,
+      orphanRemoval = true)
+  @Size(max = 2)
+  public Set<WheelInBadBicycle> getWheels() {
+    return wheels;
+  }
 
-	public void setWheels(Set<WheelInBadBicycle> wheels) {
-		this.wheels = wheels;
-	}
+  public void setWheels(Set<WheelInBadBicycle> wheels) {
+    this.wheels = wheels;
+  }
 
 }

@@ -26,20 +26,20 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Bicycle extends LongIdAndVersion {
-	private Set<Wheel> wheels = newHashSet();
+  private Set<Wheel> wheels = newHashSet();
 
-	@OneToMany(
-			mappedBy = "bicycle",
-			fetch = FetchType.EAGER,
-			orphanRemoval = true)
-	@Size(max = 2)
-	public Set<Wheel> getWheels() {
-		return wheels;
-	}
+  @OneToMany(
+      mappedBy = "bicycle",
+      fetch = FetchType.EAGER,
+      orphanRemoval = true)
+  @Size(max = 2)
+  public Set<Wheel> getWheels() {
+    return wheels;
+  }
 
-	@SuppressWarnings("unused")
-	private void setWheels(Set<Wheel> wheels) {
-		this.wheels = wheels;
-	}
+  @SuppressWarnings("unused")
+  private void setWheels(Set<Wheel> wheels) {
+    this.wheels = wheels;
+  }
 
 }

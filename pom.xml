@@ -15,12 +15,29 @@
 	<url>https://github.com/snd297/yeoman-programmer</url>
 
 	<properties>
+		<hibernate.version>4.2.2.Final</hibernate.version>
+		<h2.version>1.3.172</h2.version>
 	</properties>
 
 	<modules>
 		<module>yp-hibernate-equals</module>
 		<module>yp-hibernate-collections</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -65,5 +82,9 @@
 	</build>
 
 	<repositories>
+		<repository>
+			<id>JBoss repository</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
 	</repositories>
 </project>

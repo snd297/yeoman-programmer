@@ -32,12 +32,12 @@ import org.hibernate.collection.spi.PersistentCollection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.snd297.hibernatecollections.model.BadBicycle;
-import com.github.snd297.hibernatecollections.model.Bicycle;
-import com.github.snd297.hibernatecollections.model.Wheel;
-import com.github.snd297.hibernatecollections.model.WheelInBadBicycle;
-import com.github.snd297.modelbase.IHasLongId;
 import com.github.snd297.yp.hibernate.HibernateUtil;
+import com.github.snd297.yp.hibernatecollections.model.BadBicycle;
+import com.github.snd297.yp.hibernatecollections.model.Bicycle;
+import com.github.snd297.yp.hibernatecollections.model.Wheel;
+import com.github.snd297.yp.hibernatecollections.model.WheelInBadBicycle;
+import com.github.snd297.yp.modelbase.IHasLongId;
 
 public class PublicCollectionTest {
 

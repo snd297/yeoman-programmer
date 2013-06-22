@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.github.snd297.modelbase.LongIdAndVersion;
 import com.google.common.base.Objects;
 
 @Entity

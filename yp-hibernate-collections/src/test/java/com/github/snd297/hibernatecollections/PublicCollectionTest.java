@@ -34,10 +34,10 @@ import org.junit.Test;
 
 import com.github.snd297.hibernatecollections.model.BadBicycle;
 import com.github.snd297.hibernatecollections.model.Bicycle;
-import com.github.snd297.hibernatecollections.model.IHasLongId;
 import com.github.snd297.hibernatecollections.model.Wheel;
 import com.github.snd297.hibernatecollections.model.WheelInBadBicycle;
-import com.github.snd297.hibernatecollections.persistence.HibernateUtil;
+import com.github.snd297.modelbase.IHasLongId;
+import com.github.snd297.yp.hibernate.HibernateUtil;
 
 public class PublicCollectionTest {
 

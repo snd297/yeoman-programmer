@@ -24,6 +24,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import com.github.snd297.modelbase.LongIdAndVersion;
+
 @Entity
 public class Bicycle extends LongIdAndVersion {
   private Set<Wheel> wheels = newHashSet();

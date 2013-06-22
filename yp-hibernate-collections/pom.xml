@@ -9,18 +9,20 @@
 	<artifactId>yp-hibernate-collections</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>com.github.snd297</groupId>
+			<artifactId>yp-utils</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
-			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -31,7 +33,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>

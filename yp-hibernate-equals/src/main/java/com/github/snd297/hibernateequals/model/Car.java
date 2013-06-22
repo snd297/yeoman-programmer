@@ -25,51 +25,50 @@ import com.google.common.base.Objects;
 
 @Entity
 public class Car extends LongIdAndVersion {
-	private String vin;
-	private String someField;
+  private String vin;
 
-	/** For JPA. */
-	Car() {}
+  /** For JPA. */
+  Car() {}
 
-	public Car(String vin) {
-		this.vin = vin;
-	}
+  public Car(String vin) {
+    this.vin = vin;
+  }
 
-	@Override
-	public boolean equals(@Nullable Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Car)) {
-			return false;
-		}
-		Car other = (Car) obj;
-		if (!Objects.equal(this.vin, other.getVin())) {
-			return false;
-		}
-		return true;
-	}
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof Car)) {
+      return false;
+    }
+    Car other = (Car) obj;
+    if (!Objects.equal(this.vin, other.getVin())) {
+      return false;
+    }
+    return true;
+  }
 
-	@NaturalId
-	@NotNull
-	public String getVin() {
-		return vin;
-	}
+  @NaturalId
+  @NotNull
+  public String getVin() {
+    return vin;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((vin == null) ? 0 : vin.hashCode());
-		return result;
-	}
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((vin == null) ? 0 : vin.hashCode());
+    return result;
+  }
 
-	@SuppressWarnings("unused")
-	private void setVin(String vin) {
-		this.vin = vin;
-	}
+  @SuppressWarnings("unused")
+  private void setVin(String vin) {
+    this.vin = vin;
+  }
 
 }

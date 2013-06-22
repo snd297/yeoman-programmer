@@ -20,6 +20,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.github.snd297.modelbase.LongIdAndVersion;
+
 @Entity
 public class WheelInBadBicycle extends LongIdAndVersion {
 	private BadBicycle bicycle;

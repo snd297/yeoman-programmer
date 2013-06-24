@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.github.snd297.yp.modelbase.LongIdAndVersion;
+import com.github.snd297.yp.hibernate.LongIdAndVersion;
 
 @Entity
 public class GetClassCar extends LongIdAndVersion {

@@ -26,7 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
-import com.github.snd297.yp.modelbase.LongIdAndVersion;
+import com.github.snd297.yp.hibernate.LongIdAndVersion;
 
 @Entity
 public class BadBicycle extends LongIdAndVersion {

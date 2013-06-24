@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.snd297.yp.modelbase;
+package com.github.snd297.yp.hibernate;
 
-import com.google.common.base.Function;
+public class HibernateUtilTest {
+  public void closeQuietly() {
 
-public interface IHasLongId {
-
-	public static Function<IHasLongId, Long> getId =
-			new Function<IHasLongId, Long>() {
-				public Long apply(IHasLongId hasLongId) {
-					return hasLongId.getId();
-				}
-			};
-
-	Long getId();
+  }
 }

@@ -25,12 +25,17 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
 @ThreadSafe
 public class HibernateUtil {
+
+  private static final Logger logger =
+      LoggerFactory.getLogger(HibernateUtil.class);
 
   private static class SessionFactorySupplier implements
       Supplier<SessionFactory> {
@@ -53,12 +58,13 @@ public class HibernateUtil {
       Suppliers.memoize(new SessionFactorySupplier());
 
   public static void closeQuietly(@Nullable Session sess) {
+    String m = "closeQuietly(...)";
     try {
       if (sess != null && sess.isOpen()) {
         sess.close();
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error(m + ": caught excption", e);
     }
   }
 
@@ -67,12 +73,13 @@ public class HibernateUtil {
   }
 
   public static void rollbackQuietly(@Nullable Transaction trx) {
+    String m = "rollBackQuietly(...)";
     try {
       if (trx != null && trx.isActive()) {
         trx.rollback();
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error(m + ": caught excption", e);
     }
   }
 

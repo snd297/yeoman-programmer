@@ -106,7 +106,7 @@ public class PublicCollectionTest {
         assertTrue(he
             .getMessage()
             .equals(
-                "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.hibernatecollections.model.BadBicycle.wheels"));
+                "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BadBicycle.wheels"));
         throw he;
       }
 

@@ -29,7 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
 @ThreadSafe
 public class HibernateUtil {
@@ -54,32 +56,35 @@ public class HibernateUtil {
     }
   }
 
-  private static Supplier<SessionFactory> sessFacSupplier =
-      Suppliers.memoize(new SessionFactorySupplier());
+  private static LoadingCache<String, SessionFactory> sessFacs = CacheBuilder
+      .newBuilder()
+      .build(CacheLoader.from(new SessionFactorySupplier()));
 
   public static void closeQuietly(@Nullable Session sess) {
-    String m = "closeQuietly(...)";
     try {
       if (sess != null && sess.isOpen()) {
         sess.close();
       }
     } catch (Exception e) {
-      logger.error(m + ": caught excption", e);
+      logger.error("caught exception closing session", e);
     }
   }
 
+  public static SessionFactory getSessionFactory(String sessFacKey) {
+    return sessFacs.getUnchecked(sessFacKey);
+  }
+
   public static SessionFactory getSessionFactory() {
-    return sessFacSupplier.get();
+    return getSessionFactory("hibernate");
   }
 
   public static void rollbackQuietly(@Nullable Transaction trx) {
-    String m = "rollBackQuietly(...)";
     try {
       if (trx != null && trx.isActive()) {
         trx.rollback();
       }
     } catch (Exception e) {
-      logger.error(m + ": caught excption", e);
+      logger.error("caught exception rolling back transaction", e);
     }
   }
 

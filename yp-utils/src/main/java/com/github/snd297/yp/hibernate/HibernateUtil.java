@@ -88,7 +88,7 @@ public class HibernateUtil {
   private static ConcurrentMap<String, Properties> configProps =
       Maps.newConcurrentMap();
 
-  public static ConcurrentMap<String, Properties> getProperties() {
+  public static ConcurrentMap<String, Properties> getConfigProps() {
     return configProps;
   }
 

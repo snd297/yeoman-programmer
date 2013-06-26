@@ -42,7 +42,7 @@ import com.google.common.collect.Maps;
 @ThreadSafe
 public class HibernateUtil {
 
-  public static final String DEFAULT_SESS_FAC_KEY = "hibernate";
+  public static final String DEFAULT_SESS_FAC_KEY = "";
 
   private static final Logger logger =
       LoggerFactory.getLogger(HibernateUtil.class);

@@ -15,6 +15,9 @@
  */
 package com.github.snd297.yp.hibernate;
 
+import java.util.Properties;
+import java.util.concurrent.ConcurrentMap;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -28,15 +31,18 @@ import org.hibernate.service.ServiceRegistryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Supplier;
+import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import com.google.common.collect.Maps;
 
 @ThreadSafe
 public class HibernateUtil {
+
+  private static final String DEFAULT_SESS_FAC_KEY = "hibernate";
 
   private static final Logger logger =
       LoggerFactory.getLogger(HibernateUtil.class);
@@ -51,27 +57,40 @@ public class HibernateUtil {
     }
   }
 
-  private static class SessionFactorySupplier implements
-      Supplier<SessionFactory> {
-
-    @Override
-    public SessionFactory get() {
-      Configuration config = new Configuration();
-      config.setNamingStrategy(new ImprovedNamingStrategy());
-      config.configure();
-      ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
-          .applySettings(config.getProperties())
-          .buildServiceRegistry();
-      SessionFactory sessionFactory = config
-          .buildSessionFactory(serviceRegistry);
-      return sessionFactory;
-    }
-  }
-
   private static LoadingCache<String, SessionFactory> sessFacs = CacheBuilder
       .newBuilder()
       .removalListener(new SessionFactoryRemovalListener())
-      .build(CacheLoader.from(new SessionFactorySupplier()));
+      .build(
+          new CacheLoader<String, SessionFactory>() {
+            @Override
+            public SessionFactory load(String sessFacKey) {
+              Configuration config = new Configuration();
+              config.setNamingStrategy(new ImprovedNamingStrategy());
+              if (sessFacKey.equals(DEFAULT_SESS_FAC_KEY)) {
+                config.configure();
+              } else {
+                config.configure(sessFacKey + "-hibernate.cfg.xml");
+              }
+              Optional<Properties> props =
+                  Optional.fromNullable(configProps.get(sessFacKey));
+              if (props.isPresent()) {
+                config.setProperties(props.get());
+              }
+              ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+                  .applySettings(config.getProperties())
+                  .buildServiceRegistry();
+              SessionFactory sessionFactory = config
+                  .buildSessionFactory(serviceRegistry);
+              return sessionFactory;
+            }
+          });
+
+  private static ConcurrentMap<String, Properties> configProps =
+      Maps.newConcurrentMap();
+
+  public static ConcurrentMap<String, Properties> getProperties() {
+    return configProps;
+  }
 
   public static void closeQuietly(@Nullable Session sess) {
     try {
@@ -88,7 +107,7 @@ public class HibernateUtil {
   }
 
   public static SessionFactory getSessionFactory() {
-    return getSessionFactory("hibernate");
+    return getSessionFactory(DEFAULT_SESS_FAC_KEY);
   }
 
   public static void rollbackQuietly(@Nullable Transaction trx) {

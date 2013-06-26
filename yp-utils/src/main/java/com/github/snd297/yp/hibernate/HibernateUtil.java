@@ -32,12 +32,24 @@ import com.google.common.base.Supplier;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 
 @ThreadSafe
 public class HibernateUtil {
 
   private static final Logger logger =
       LoggerFactory.getLogger(HibernateUtil.class);
+
+  private static class SessionFactoryRemovalListener
+      implements RemovalListener<String, SessionFactory> {
+
+    @Override
+    public void onRemoval(
+        RemovalNotification<String, SessionFactory> notification) {
+      notification.getValue().close();
+    }
+  }
 
   private static class SessionFactorySupplier implements
       Supplier<SessionFactory> {
@@ -58,6 +70,7 @@ public class HibernateUtil {
 
   private static LoadingCache<String, SessionFactory> sessFacs = CacheBuilder
       .newBuilder()
+      .removalListener(new SessionFactoryRemovalListener())
       .build(CacheLoader.from(new SessionFactorySupplier()));
 
   public static void closeQuietly(@Nullable Session sess) {
@@ -86,6 +99,10 @@ public class HibernateUtil {
     } catch (Exception e) {
       logger.error("caught exception rolling back transaction", e);
     }
+  }
+
+  public static void shutdown() {
+    sessFacs.invalidateAll();
   }
 
   private HibernateUtil() {

@@ -22,7 +22,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
@@ -35,7 +34,6 @@ public class BadBicycle extends LongIdAndVersion {
   @OneToMany(
       cascade = CascadeType.ALL,
       mappedBy = "bicycle",
-      fetch = FetchType.EAGER,
       orphanRemoval = true)
   @Size(max = 2)
   public Set<WheelInBadBicycle> getWheels() {

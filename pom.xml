@@ -27,6 +27,7 @@
 		<module>yp-utils</module>
 		<module>yp-hibernate-equals</module>
 		<module>yp-hibernate-collections</module>
+		<module>yp-hibernate-many-to-many</module>
 	</modules>
 
 	<dependencyManagement>

@@ -20,7 +20,6 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
@@ -32,8 +31,7 @@ public class BadBicycle extends LongIdAndVersion {
   private Set<WheelInBadBicycle> wheels = newHashSet();
 
   @OneToMany(
-      cascade = CascadeType.ALL,
-      mappedBy = "bicycle",
+      //mappedBy = "bicycle",
       orphanRemoval = true)
   @Size(max = 2)
   public Set<WheelInBadBicycle> getWheels() {

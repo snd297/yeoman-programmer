@@ -89,6 +89,8 @@ public class PublicCollectionTest {
           .get(BadBicycle.class, badBicycleId);
 
       Set<WheelInBadBicycle> wheels = bicycle.getWheels();
+      
+      assertEquals(2, bicycle.getWheels().size());
       assertTrue(wheels instanceof PersistentCollection);
 
       WheelInBadBicycle newWheel0 = new WheelInBadBicycle(bicycle);
@@ -132,6 +134,7 @@ public class PublicCollectionTest {
       Bicycle bicycle = (Bicycle) sess.load(Bicycle.class, bicycleId);
       Set<Wheel> wheels = bicycle.getWheels();
 
+      assertEquals(2, bicycle.getWheels().size());
       assertTrue(wheels instanceof PersistentCollection);
 
       Wheel newWheel0 = new Wheel(bicycle);

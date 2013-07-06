@@ -29,7 +29,7 @@ public class WheelInBadBicycle extends LongIdAndVersion {
 	/** For JPA. */
 	WheelInBadBicycle() {}
 
-	public WheelInBadBicycle(BadBicycle bicycle) {
+  public WheelInBadBicycle(BadBicycle bicycle) {
 		this.bicycle = bicycle;
 		bicycle.getWheels().add(this);
 	}

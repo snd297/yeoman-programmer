@@ -24,22 +24,23 @@ import com.github.snd297.yp.hibernate.LongIdAndVersion;
 
 @Entity
 public class Wheel extends LongIdAndVersion {
-	private Bicycle bicycle;
+  private Bicycle bicycle;
 
-	/** For JPA */
-	Wheel() {}
+  /** For JPA */
+  Wheel() {}
 
-	public Wheel(Bicycle bicycle) {
-		this.bicycle = bicycle;
-	}
+  public Wheel(Bicycle bicycle) {
+    this.bicycle = bicycle;
+    bicycle.getWheels().add(this);
+  }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Bicycle getBicycle() {
-		return bicycle;
-	}
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  public Bicycle getBicycle() {
+    return bicycle;
+  }
 
-	public void setBicycle(Bicycle bicycle) {
-		this.bicycle = bicycle;
-	}
+  public void setBicycle(Bicycle bicycle) {
+    this.bicycle = bicycle;
+  }
 }

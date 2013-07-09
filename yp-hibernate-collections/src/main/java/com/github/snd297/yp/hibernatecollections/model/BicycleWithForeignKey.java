@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.snd297.yp.hibernatecollections.model;
 
 import static com.google.common.collect.Sets.newHashSet;
@@ -21,25 +20,22 @@ import static com.google.common.collect.Sets.newHashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Size;
 
 import com.github.snd297.yp.hibernate.LongIdAndVersion;
 
 @Entity
-public class BadBicycle extends LongIdAndVersion {
-  private Set<WheelInBadBicycle> wheels = newHashSet();
+public class BicycleWithForeignKey extends LongIdAndVersion {
+  Set<WheelNoBicycle> wheels = newHashSet();
 
-  @OneToMany(
-      mappedBy = "bicycle",
-      orphanRemoval = true)
-  @Size(max = 2)
-  public Set<WheelInBadBicycle> getWheels() {
+  @OneToMany
+  @JoinColumn(name = "bicycle_id")
+  public Set<WheelNoBicycle> getWheels() {
     return wheels;
   }
 
-  public void setWheels(Set<WheelInBadBicycle> wheels) {
+  public void setWheels(Set<WheelNoBicycle> wheels) {
     this.wheels = wheels;
   }
-
 }

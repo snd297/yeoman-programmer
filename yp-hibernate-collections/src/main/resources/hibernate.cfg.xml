@@ -10,5 +10,14 @@
 
 		<mapping class="com.github.snd297.yp.hibernatecollections.model.Bicycle" />
 		<mapping class="com.github.snd297.yp.hibernatecollections.model.Wheel" />
+
+		<mapping
+			class="com.github.snd297.yp.hibernatecollections.model.BicycleOwningSide" />
+		<mapping
+			class="com.github.snd297.yp.hibernatecollections.model.WheelNoBicycle" />
+
+		<mapping
+			class="com.github.snd297.yp.hibernatecollections.model.BicycleWithForeignKey" />
+
 	</session-factory>
 </hibernate-configuration>

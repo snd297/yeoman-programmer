@@ -24,10 +24,10 @@ import org.hibernate.proxy.HibernateProxy;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.snd297.yp.hibernate.HibernateUtil;
 import com.github.snd297.yp.hibernateequals.model.BrokenEqualsCar;
 import com.github.snd297.yp.hibernateequals.model.Car;
 import com.github.snd297.yp.hibernateequals.model.GetClassCar;
+import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
 public class EqualsTest {
 

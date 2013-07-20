@@ -20,7 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import com.github.snd297.yp.hibernate.LongIdAndVersion;
+import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
 public class Wheel extends LongIdAndVersion {

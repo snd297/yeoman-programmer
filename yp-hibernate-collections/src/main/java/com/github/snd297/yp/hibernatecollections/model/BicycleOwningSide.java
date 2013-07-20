@@ -22,7 +22,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import com.github.snd297.yp.hibernate.LongIdAndVersion;
+import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
 public class BicycleOwningSide extends LongIdAndVersion {

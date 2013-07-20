@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.github.snd297.yp.hibernate.LongIdAndVersion;
+import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
 public class BrokenEqualsCar extends LongIdAndVersion {

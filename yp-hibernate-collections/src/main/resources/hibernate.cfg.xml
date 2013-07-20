@@ -12,12 +12,13 @@
 		<mapping class="com.github.snd297.yp.hibernatecollections.model.Wheel" />
 
 		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.BicycleOwningSide" />
-		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.WheelNoBicycle" />
+			class="com.github.snd297.yp.hibernatecollections.model.BandOwningSide" />
+		<mapping class="com.github.snd297.yp.hibernatecollections.model.BandMember" />
 
 		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.BicycleWithForeignKey" />
+			class="com.github.snd297.yp.hibernatecollections.model.BandWithForeignKey" />
+		<mapping
+			class="com.github.snd297.yp.hibernatecollections.model.BandMemberWithForeignKey" />
 
 	</session-factory>
 </hibernate-configuration>

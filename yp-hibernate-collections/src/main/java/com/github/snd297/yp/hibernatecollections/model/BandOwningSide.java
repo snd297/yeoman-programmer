@@ -20,21 +20,25 @@ import static com.google.common.collect.Sets.newHashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-public class BicycleOwningSide extends LongIdAndVersion {
-  private Set<Wheel> wheels = newHashSet();
+public class BandOwningSide extends LongIdAndVersion {
+  private Set<BandMember> members = newHashSet();
 
   @OneToMany(orphanRemoval = true)
-  public Set<Wheel> getWheels() {
-    return wheels;
+  @JoinTable(
+      name = "band_owning_side_band_member",
+      inverseJoinColumns = { @JoinColumn(name = "band_member") })
+  public Set<BandMember> getMembers() {
+    return members;
   }
 
-  public void setWheels(Set<Wheel> wheels) {
-    this.wheels = wheels;
+  public void setMembers(Set<BandMember> members) {
+    this.members = members;
   }
-
 }

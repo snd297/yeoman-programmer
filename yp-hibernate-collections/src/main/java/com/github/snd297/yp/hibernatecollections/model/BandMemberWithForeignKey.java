@@ -15,27 +15,11 @@
  */
 package com.github.snd297.yp.hibernatecollections.model;
 
-import static com.google.common.collect.Sets.newHashSet;
-
-import java.util.Set;
-
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-public class BicycleWithForeignKey extends LongIdAndVersion {
-  Set<WheelNoBicycle> wheels = newHashSet();
+public class BandMemberWithForeignKey extends LongIdAndVersion {
 
-  @OneToMany
-  @JoinColumn(name = "bicycle_id")
-  public Set<WheelNoBicycle> getWheels() {
-    return wheels;
-  }
-
-  public void setWheels(Set<WheelNoBicycle> wheels) {
-    this.wheels = wheels;
-  }
 }

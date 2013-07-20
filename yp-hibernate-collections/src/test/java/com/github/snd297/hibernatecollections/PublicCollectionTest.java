@@ -33,6 +33,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.snd297.yp.hibernatecollections.model.BadBicycle;
+import com.github.snd297.yp.hibernatecollections.model.BandMember;
+import com.github.snd297.yp.hibernatecollections.model.BandMemberWithForeignKey;
+import com.github.snd297.yp.hibernatecollections.model.BandOwningSide;
+import com.github.snd297.yp.hibernatecollections.model.BandWithForeignKey;
 import com.github.snd297.yp.hibernatecollections.model.Bicycle;
 import com.github.snd297.yp.hibernatecollections.model.Wheel;
 import com.github.snd297.yp.hibernatecollections.model.WheelInBadBicycle;
@@ -43,6 +47,8 @@ public class PublicCollectionTest {
 
   private static Long badBicycleId;
   private static Long bicycleId;
+  private static Long bandOwningSideId;
+  private static Long bandFkId;
 
   @BeforeClass
   public static void classSetup() throws Exception {
@@ -52,21 +58,45 @@ public class PublicCollectionTest {
       sess = HibernateUtil.getSessionFactory().openSession();
 
       trx = sess.beginTransaction();
+      {
 
-      BadBicycle badBicycle = new BadBicycle();
-      sess.save(badBicycle);
-      sess.save(new WheelInBadBicycle(badBicycle));
-      sess.save(new WheelInBadBicycle(badBicycle));
-
-      Bicycle bicycle = new Bicycle();
-      sess.save(bicycle);
-      sess.save(new Wheel(bicycle));
-      sess.save(new Wheel(bicycle));
+        BadBicycle badBicycle = new BadBicycle();
+        sess.save(badBicycle);
+        badBicycleId = badBicycle.getId();
+        sess.save(new WheelInBadBicycle(badBicycle));
+        sess.save(new WheelInBadBicycle(badBicycle));
+      }
+      {
+        Bicycle bicycle = new Bicycle();
+        sess.save(bicycle);
+        bicycleId = bicycle.getId();
+        sess.save(new Wheel(bicycle));
+        sess.save(new Wheel(bicycle));
+      }
+      {
+        BandOwningSide bandOwningSide = new BandOwningSide();
+        sess.save(bandOwningSide);
+        bandOwningSideId = bandOwningSide.getId();
+        BandMember member0 = new BandMember();
+        sess.save(member0);
+        BandMember member1 = new BandMember();
+        sess.save(member1);
+        bandOwningSide.getMembers().add(member0);
+        bandOwningSide.getMembers().add(member1);
+      }
+      {
+        BandWithForeignKey bandFk = new BandWithForeignKey();
+        sess.save(bandFk);
+        bandFkId = bandFk.getId();
+        BandMemberWithForeignKey memberFk0 = new BandMemberWithForeignKey();
+        sess.save(memberFk0);
+        BandMemberWithForeignKey memberFk1 = new BandMemberWithForeignKey();
+        sess.save(memberFk1);
+        bandFk.getMembers().add(memberFk0);
+        bandFk.getMembers().add(memberFk1);
+      }
 
       trx.commit();
-
-      badBicycleId = badBicycle.getId();
-      bicycleId = bicycle.getId();
 
     } catch (Exception e) {
       HibernateUtil.rollbackQuietly(trx);
@@ -86,10 +116,10 @@ public class PublicCollectionTest {
       trx = sess.beginTransaction();
 
       BadBicycle bicycle = (BadBicycle) sess
-          .get(BadBicycle.class, badBicycleId);
+          .load(BadBicycle.class, badBicycleId);
 
       Set<WheelInBadBicycle> wheels = bicycle.getWheels();
-      
+
       assertEquals(2, bicycle.getWheels().size());
       assertTrue(wheels instanceof PersistentCollection);
 
@@ -183,4 +213,89 @@ public class PublicCollectionTest {
       HibernateUtil.closeQuietly(sess);
     }
   }
+
+  @Test(expected = HibernateException.class)
+  public void bandOwningSide() throws Exception {
+    Session sess = null;
+    Transaction trx = null;
+    try {
+      sess = HibernateUtil.getSessionFactory().openSession();
+
+      trx = sess.beginTransaction();
+
+      BandOwningSide band = (BandOwningSide)
+          sess.load(BandOwningSide.class, bandOwningSideId);
+
+      assertEquals(2, band.getMembers().size());
+      assertTrue(band.getMembers() instanceof PersistentCollection);
+
+      BandMember newMember0 = new BandMember();
+      sess.save(newMember0);
+      BandMember newMember1 = new BandMember();
+      sess.save(newMember1);
+
+      Set<BandMember> newMembers = newHashSet(newMember0, newMember1);
+
+      band.setMembers(newMembers);
+      try {
+        trx.commit();
+      } catch (HibernateException he) {
+        assertTrue(he
+            .getMessage()
+            .equals(
+                "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BandOwningSide.members"));
+        throw he;
+      }
+    } catch (Exception e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(sess);
+    }
+
+  }
+
+  @Test(expected = HibernateException.class)
+  public void bandFk() throws Exception {
+    Session sess = null;
+    Transaction trx = null;
+    try {
+      sess = HibernateUtil.getSessionFactory().openSession();
+
+      trx = sess.beginTransaction();
+
+      BandWithForeignKey band =
+          (BandWithForeignKey)
+          sess.load(BandWithForeignKey.class, bandFkId);
+
+      assertEquals(2, band.getMembers().size());
+      assertTrue(band.getMembers() instanceof PersistentCollection);
+
+      BandMemberWithForeignKey newMember0 = new BandMemberWithForeignKey();
+      sess.save(newMember0);
+
+      BandMemberWithForeignKey newMember1 = new BandMemberWithForeignKey();
+      sess.save(newMember1);
+
+      Set<BandMemberWithForeignKey> newMembers =
+          newHashSet(newMember0, newMember1);
+
+      band.setMembers(newMembers);
+      try {
+        trx.commit();
+      } catch (HibernateException he) {
+        assertTrue(he
+            .getMessage()
+            .equals(
+                "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BandWithForeignKey.members"));
+        throw he;
+      }
+    } catch (Exception e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(sess);
+    }
+  }
+
 }

@@ -20,6 +20,6 @@ import javax.persistence.Entity;
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-public class WheelNoBicycle extends LongIdAndVersion {
+public class BandMember extends LongIdAndVersion {
 
 }

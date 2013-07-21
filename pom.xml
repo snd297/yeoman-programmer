@@ -10,7 +10,7 @@
 	<groupId>com.github.snd297</groupId>
 	<artifactId>yp</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Yeoman Programmer :: Parent</name>
 	<url>https://github.com/snd297/yeoman-programmer</url>
 

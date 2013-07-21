@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="com.github.snd297.yp.finalentities.model.FinalBicycle" />
+		<mapping class="com.github.snd297.yp.finalentities.model.FinalWheel" />
+		<mapping class="com.github.snd297.yp.finalentities.model.SpokeInFinalWheel" />
+
+		<mapping class="com.github.snd297.yp.finalentities.model.Spoke" />
+		<mapping class="com.github.snd297.yp.finalentities.model.Wheel" />
+	</session-factory>
+</hibernate-configuration>

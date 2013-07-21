@@ -132,6 +132,7 @@ public class PublicCollectionTest {
       Set<WheelInBadBicycle> newWheels = newHashSet(newWheel0, newWheel1);
 
       bicycle.setWheels(newWheels);
+      sess.flush();
       try {
         trx.commit();
       } catch (HibernateException he) {

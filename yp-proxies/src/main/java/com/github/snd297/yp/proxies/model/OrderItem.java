@@ -25,8 +25,6 @@ import javax.validation.constraints.NotNull;
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-// @javax.annotation.concurrent.Immutable
-// @org.hibernate.annotations.Immutable
 public class OrderItem extends LongIdAndVersion {
   private Order order;
 

@@ -15,10 +15,13 @@
  */
 package com.github.snd297.yp.utils.hibernate;
 
+import javax.annotation.Nullable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
+
+import com.google.common.annotations.VisibleForTesting;
 
 @MappedSuperclass
 public abstract class LongIdAndVersion implements IHasLongId {
@@ -37,13 +40,13 @@ public abstract class LongIdAndVersion implements IHasLongId {
     return version;
   }
 
-  @SuppressWarnings("unused")
-  private void setId(Long id) {
+  @VisibleForTesting
+  void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  @SuppressWarnings("unused")
-  private void setVersion(Integer version) {
+  @VisibleForTesting
+  void setVersion(@Nullable Integer version) {
     this.version = version;
   }
 }

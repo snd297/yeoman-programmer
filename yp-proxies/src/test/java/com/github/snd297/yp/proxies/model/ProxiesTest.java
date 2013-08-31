@@ -52,7 +52,22 @@ public class ProxiesTest {
   }
 
   @Test
-  public void test() {
+  public void test() throws Exception {
+    Session session = null;
+    Transaction trx = null;
+    try {
+      session = HibernateUtil.getSessionFactory().openSession();
+      trx = session.beginTransaction();
 
+      
+      
+      trx.commit();
+    } catch (Exception e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(session);
+    }
   }
+
 }

@@ -15,32 +15,43 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import static com.google.common.collect.Sets.newHashSet;
-
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
-import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
+import org.hibernate.annotations.Immutable;
+
+import com.github.snd297.yp.utils.hibernate.LongId;
 
 @Entity
-public class CustomerOrder extends LongIdAndVersion {
-  private Set<OrderItem> items = newHashSet();
+@Immutable
+public class Rectangle extends LongId {
 
-  public CustomerOrder() {}
+  private Integer width;
 
-  @OneToMany(
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      mappedBy = "customerOrder")
-  public Set<OrderItem> getItems() {
-    return items;
+  private Integer height;
+
+  Rectangle() {}
+
+  public Rectangle(Integer width, Integer height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  public Integer getHeight() {
+    return height;
+  }
+
+  public Integer getWidth() {
+    return width;
   }
 
   @SuppressWarnings("unused")
-  private void setItems(Set<OrderItem> items) {
-    this.items = items;
+  private void setHeight(Integer height) {
+    this.height = height;
   }
+
+  @SuppressWarnings("unused")
+  private void setWidth(Integer width) {
+    this.width = width;
+  }
+
 }

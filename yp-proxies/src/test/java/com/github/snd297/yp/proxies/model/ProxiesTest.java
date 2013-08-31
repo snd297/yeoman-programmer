@@ -23,6 +23,9 @@ import org.junit.Test;
 import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
 public class ProxiesTest {
+
+  private static Long rectangleId;
+
   @BeforeClass
   public static void classSetup() throws Exception {
     Session sess = null;
@@ -31,11 +34,10 @@ public class ProxiesTest {
       sess = HibernateUtil.getSessionFactory().openSession();
       trx = sess.beginTransaction();
 
-      CustomerOrder order = new CustomerOrder();
-      new OrderItem(order);
-      new OrderItem(order);
+      Rectangle rectangle = new Rectangle(2, 4);
 
-      sess.save(order);
+      sess.save(rectangle);
+      rectangleId = rectangle.getId();
       trx.commit();
     } catch (Exception e) {
       HibernateUtil.rollbackQuietly(trx);

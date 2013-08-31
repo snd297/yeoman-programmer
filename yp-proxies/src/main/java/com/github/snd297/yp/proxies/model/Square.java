@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.snd297.yp.utils.hibernate;
+package com.github.snd297.yp.proxies.model;
 
-import javax.annotation.Nullable;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import javax.persistence.Entity;
 
-import com.google.common.annotations.VisibleForTesting;
+@Entity
+public class Square extends Rectangle {
 
-@MappedSuperclass
-public abstract class LongIdAndVersion
-    extends LongId {
+  Square() {}
 
-  private Integer version;
-
-  @Version
-  public Integer getVersion() {
-    return version;
+  public Square(Integer length) {
+    super(length, length);
   }
 
-  @VisibleForTesting
-  void setVersion(@Nullable Integer version) {
-    this.version = version;
-  }
 }

@@ -17,39 +17,9 @@ package com.github.snd297.yp.proxies.model;
 
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.Immutable;
+import com.github.snd297.yp.utils.hibernate.LongId;
 
 @Entity
-@Immutable
-public class Rectangle extends Shape {
-
-  private Integer width;
-
-  private Integer height;
-
-  Rectangle() {}
-
-  public Rectangle(Integer width, Integer height) {
-    this.width = width;
-    this.height = height;
-  }
-
-  public Integer getHeight() {
-    return height;
-  }
-
-  public Integer getWidth() {
-    return width;
-  }
-
-  @SuppressWarnings("unused")
-  private void setHeight(Integer height) {
-    this.height = height;
-  }
-
-  @SuppressWarnings("unused")
-  private void setWidth(Integer width) {
-    this.width = width;
-  }
+public abstract class Shape extends LongId {
 
 }

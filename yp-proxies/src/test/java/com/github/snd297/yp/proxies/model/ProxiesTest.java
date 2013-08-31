@@ -15,7 +15,7 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -64,7 +64,7 @@ public class ProxiesTest {
       Square square =
           (Square) session.load(Square.class, squareId);
 
-      assertFalse(square instanceof Rectangle);
+      assertTrue(square instanceof Rectangle);
 
       trx.commit();
     } catch (Exception e) {

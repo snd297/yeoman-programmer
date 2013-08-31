@@ -15,15 +15,17 @@
  */
 package com.github.snd297.yp.proxies.model;
 
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.Entity;
 
 @Entity
+@Immutable
 public class Square extends Rectangle {
 
   Square() {}
 
-  public Square(Integer length) {
-    super(length, length);
+  public Square(Integer sideLength) {
+    super(sideLength, sideLength);
   }
 
 }

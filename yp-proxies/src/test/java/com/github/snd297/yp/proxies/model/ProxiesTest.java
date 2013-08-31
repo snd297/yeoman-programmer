@@ -24,26 +24,30 @@ import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
 public class ProxiesTest {
 
+  private static Long squareId;
   private static Long rectangleId;
 
   @BeforeClass
   public static void classSetup() throws Exception {
-    Session sess = null;
+    Session session = null;
     Transaction trx = null;
     try {
-      sess = HibernateUtil.getSessionFactory().openSession();
-      trx = sess.beginTransaction();
+      session = HibernateUtil.getSessionFactory().openSession();
+      trx = session.beginTransaction();
 
       Rectangle rectangle = new Rectangle(2, 4);
+      Square square = new Square(5);
 
-      sess.save(rectangle);
+      session.save(rectangle);
+      session.save(square);
       rectangleId = rectangle.getId();
+      squareId = square.getId();
       trx.commit();
     } catch (Exception e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
-      HibernateUtil.closeQuietly(sess);
+      HibernateUtil.closeQuietly(session);
     }
   }
 

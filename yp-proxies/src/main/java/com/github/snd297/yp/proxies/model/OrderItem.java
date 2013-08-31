@@ -26,23 +26,23 @@ import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
 public class OrderItem extends LongIdAndVersion {
-  private Order order;
+  private CustomerOrder customerOrder;
 
   OrderItem() {}
 
-  public OrderItem(Order order) {
-    this.order = checkNotNull(order);
-    order.getItems().add(this);
+  public OrderItem(CustomerOrder customerOrder) {
+    this.customerOrder = checkNotNull(customerOrder);
+    customerOrder.getItems().add(this);
   }
 
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
-  public Order getOrder() {
-    return order;
+  public CustomerOrder getCustomerOrder() {
+    return customerOrder;
   }
 
   @SuppressWarnings("unused")
-  private void setOrder(Order order) {
-    this.order = order;
+  private void setCustomerOrder(CustomerOrder customerOrder) {
+    this.customerOrder = customerOrder;
   }
 }

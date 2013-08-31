@@ -31,7 +31,7 @@ public class ProxiesTest {
       sess = HibernateUtil.getSessionFactory().openSession();
       trx = sess.beginTransaction();
 
-      Order order = new Order();
+      CustomerOrder order = new CustomerOrder();
       new OrderItem(order);
       new OrderItem(order);
 

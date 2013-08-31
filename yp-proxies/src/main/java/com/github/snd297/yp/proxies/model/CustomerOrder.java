@@ -26,15 +26,15 @@ import javax.persistence.OneToMany;
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-public class Order extends LongIdAndVersion {
+public class CustomerOrder extends LongIdAndVersion {
   private Set<OrderItem> items = newHashSet();
 
-  public Order() {}
+  public CustomerOrder() {}
 
   @OneToMany(
       cascade = CascadeType.ALL,
       orphanRemoval = true,
-      mappedBy = "order")
+      mappedBy = "customerOrder")
   public Set<OrderItem> getItems() {
     return items;
   }

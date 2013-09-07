@@ -17,39 +17,23 @@ package com.github.snd297.yp.proxies.model;
 
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.Immutable;
-
 @Entity
-@Immutable
-public class Rectangle extends Shape {
+public class Circle extends Shape {
 
-  private Integer width;
+  private Integer radius;
 
-  private Integer height;
+  Circle() {}
 
-  Rectangle() {}
-
-  public Rectangle(Integer width, Integer height) {
-    this.width = width;
-    this.height = height;
+  public Circle(Integer radius) {
+    this.radius = radius;
   }
 
-  public Integer getHeight() {
-    return height;
+  public Integer getRadius() {
+    return radius;
   }
 
-  public Integer getWidth() {
-    return width;
-  }
-
-  @SuppressWarnings("unused")
-  private void setHeight(Integer height) {
-    this.height = height;
-  }
-
-  @SuppressWarnings("unused")
-  private void setWidth(Integer width) {
-    this.width = width;
+  public void setRadius(Integer radius) {
+    this.radius = radius;
   }
 
 }

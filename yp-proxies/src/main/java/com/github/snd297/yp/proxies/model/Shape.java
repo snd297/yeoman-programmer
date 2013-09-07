@@ -15,11 +15,11 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 
 import com.github.snd297.yp.utils.hibernate.LongId;
 
-@Entity
+@MappedSuperclass
 public abstract class Shape extends LongId {
 
 }

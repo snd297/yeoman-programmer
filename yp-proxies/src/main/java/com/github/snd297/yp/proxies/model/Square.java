@@ -15,17 +15,29 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import javax.annotation.concurrent.Immutable;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.persistence.Entity;
 
 @Entity
-@Immutable
-public class Square extends Rectangle {
+public class Square extends Shape {
+
+  private Integer sideLength;
+
+  public Integer getSideLength() {
+    return sideLength;
+  }
+
+  public void setSideLength(Integer sideLength) {
+    this.sideLength = sideLength;
+  }
 
   Square() {}
 
   public Square(Integer sideLength) {
-    super(sideLength, sideLength);
+    this.sideLength = checkNotNull(sideLength);
+    checkArgument(sideLength >= 1);
   }
 
 }

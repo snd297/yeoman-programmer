@@ -17,9 +17,9 @@ package com.github.snd297.yp.proxies.model;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Iterator;
-
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.BeforeClass;
@@ -30,25 +30,25 @@ import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 public class ProxiesTest {
 
   private static Long squareId;
-  private static Long rectangleId;
+  private static Long circleId;
 
   @BeforeClass
-  public static void classSetup() throws Exception {
+  public static void classSetup() {
     Session session = null;
     Transaction trx = null;
     try {
       session = HibernateUtil.getSessionFactory().openSession();
       trx = session.beginTransaction();
 
-      Circle rectangle = new Circle(2);
+      Circle circle = new Circle(2);
       Square square = new Square(5);
 
-      session.save(rectangle);
+      session.save(circle);
       session.save(square);
-      rectangleId = rectangle.getId();
+      circleId = circle.getId();
       squareId = square.getId();
       trx.commit();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -57,33 +57,26 @@ public class ProxiesTest {
   }
 
   @Test
-  public void query() throws Exception {
+  public void whatToDo() {
     Session session = null;
     Transaction trx = null;
     try {
       session = HibernateUtil.getSessionFactory().openSession();
       trx = session.beginTransaction();
 
-      Iterator itr = session.createQuery(
-          "from com.github.snd297.yp.proxies.model.Shape").iterate();
+      Shape shape =
+          (Shape) session.load(Shape.class, squareId);
+      assertFalse(shape instanceof Square);
 
-      while (itr.hasNext()) {
-        Object obj = itr.next();
-        System.out.println();
+      if (Hibernate.getClass(shape).equals(Square.class)) {
+        Square square = (Square) session.load(Square.class, squareId);
+        assertTrue(square instanceof Square);
+      } else {
+        throw new AssertionError();
       }
 
-      Shape square0 =
-          (Shape) session.load(Shape.class, squareId);
-
-      assertFalse(square0 instanceof Square);
-
-      Shape square1 =
-          (Shape) session.get(Shape.class, squareId);
-
-      assertSame(square0, square1);
-
       trx.commit();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -92,25 +85,50 @@ public class ProxiesTest {
   }
 
   @Test
-  public void test() throws Exception {
+  public void isASquare() {
     Session session = null;
     Transaction trx = null;
     try {
       session = HibernateUtil.getSessionFactory().openSession();
       trx = session.beginTransaction();
 
-      Shape square0 =
-          (Shape) session.load(Shape.class, squareId);
-
-      assertFalse(square0 instanceof Square);
-
-      Shape square1 =
+      Shape gotSquare =
           (Shape) session.get(Shape.class, squareId);
+      assertTrue(gotSquare instanceof Square);
 
-      assertSame(square0, square1);
+      Shape loadedSquare =
+          (Shape) session.load(Shape.class, squareId);
+      assertSame(loadedSquare, gotSquare);
 
       trx.commit();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(session);
+    }
+  }
+
+  @Test
+  public void isNotASquare() {
+    Session session = null;
+    Transaction trx = null;
+    try {
+      session = HibernateUtil.getSessionFactory().openSession();
+      trx = session.beginTransaction();
+
+      Shape loadedSquare =
+          (Shape) session.load(Shape.class, squareId);
+
+      assertFalse(loadedSquare instanceof Square);
+
+      Shape gotSquare =
+          (Shape) session.get(Shape.class, squareId);
+
+      assertSame(loadedSquare, gotSquare);
+
+      trx.commit();
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {

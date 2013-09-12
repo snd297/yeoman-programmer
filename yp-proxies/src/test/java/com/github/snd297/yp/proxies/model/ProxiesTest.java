@@ -104,7 +104,6 @@ public class ProxiesTest {
 
       Shape loadedSquare =
           (Shape) session.load(Shape.class, squareId);
-      assertNotEquals(gotSquare, loadedSquare);
       assertSame(loadedSquare, gotSquare);
 
       trx.commit();
@@ -131,7 +130,6 @@ public class ProxiesTest {
 
       Shape gotSquare =
           (Shape) session.get(Shape.class, squareId);
-      assertNotEquals(gotSquare, loadedSquare);
       assertSame(loadedSquare, gotSquare);
 
       trx.commit();

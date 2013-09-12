@@ -16,6 +16,7 @@
 package com.github.snd297.yp.proxies.model;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -64,15 +65,20 @@ public class ProxiesTest {
       session = HibernateUtil.getSessionFactory().openSession();
       trx = session.beginTransaction();
 
-      Shape shape =
+      Shape squareShape =
           (Shape) session.load(Shape.class, squareId);
-      assertFalse(shape instanceof Square);
+      assertFalse(squareShape instanceof Square);
 
-      if (Hibernate.getClass(shape).equals(Square.class)) {
+      Shape circleShape =
+          (Shape) session.load(Shape.class, circleId);
+      assertFalse(circleShape instanceof Circle);
+
+      if (Hibernate.getClass(squareShape).equals(Square.class)) {
         Square square = (Square) session.load(Square.class, squareId);
         assertTrue(square instanceof Square);
-      } else {
-        throw new AssertionError();
+      } else if (Hibernate.getClass(squareShape).equals(Circle.class)) {
+        Circle circle = (Circle) session.load(Circle.class, circleId);
+        assertTrue(circle instanceof Circle);
       }
 
       trx.commit();
@@ -98,6 +104,7 @@ public class ProxiesTest {
 
       Shape loadedSquare =
           (Shape) session.load(Shape.class, squareId);
+      assertNotEquals(gotSquare, loadedSquare);
       assertSame(loadedSquare, gotSquare);
 
       trx.commit();
@@ -124,7 +131,7 @@ public class ProxiesTest {
 
       Shape gotSquare =
           (Shape) session.get(Shape.class, squareId);
-
+      assertNotEquals(gotSquare, loadedSquare);
       assertSame(loadedSquare, gotSquare);
 
       trx.commit();

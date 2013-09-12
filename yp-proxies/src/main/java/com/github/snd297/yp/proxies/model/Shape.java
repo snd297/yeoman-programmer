@@ -20,6 +20,4 @@ import javax.persistence.Entity;
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 
 @Entity
-public abstract class Shape extends LongIdAndVersion {
-
-}
+public abstract class Shape extends LongIdAndVersion {}

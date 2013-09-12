@@ -15,6 +15,8 @@
  */
 package com.github.snd297.yp.proxies.model;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 
 @Entity

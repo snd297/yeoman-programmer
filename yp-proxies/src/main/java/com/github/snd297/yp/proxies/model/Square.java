@@ -25,14 +25,6 @@ public class Square extends Shape {
 
   private Integer sideLength;
 
-  public Integer getSideLength() {
-    return sideLength;
-  }
-
-  public void setSideLength(Integer sideLength) {
-    this.sideLength = sideLength;
-  }
-
   Square() {}
 
   public Square(Integer sideLength) {
@@ -40,4 +32,11 @@ public class Square extends Shape {
     checkArgument(sideLength >= 1);
   }
 
+  public Integer getSideLength() {
+    return sideLength;
+  }
+
+  public void setSideLength(Integer sideLength) {
+    this.sideLength = sideLength;
+  }
 }

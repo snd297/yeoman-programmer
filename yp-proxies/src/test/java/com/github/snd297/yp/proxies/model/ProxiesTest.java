@@ -15,7 +15,9 @@
  */
 package com.github.snd297.yp.proxies.model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -45,8 +47,10 @@ public class ProxiesTest {
 
       session.save(circle);
       session.save(square);
+
       circleId = circle.getId();
       squareId = square.getId();
+
       trx.commit();
     } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
@@ -74,6 +78,8 @@ public class ProxiesTest {
 
       if (Hibernate.getClass(squareShape).equals(Square.class)) {
         Square square = (Square) session.load(Square.class, squareId);
+        assertEquals(squareShape, square);
+        assertNotSame(squareShape, square);
         assertTrue(square instanceof Square);
       } else if (Hibernate.getClass(squareShape).equals(Circle.class)) {
         Circle circle = (Circle) session.load(Circle.class, circleId);
@@ -116,6 +122,32 @@ public class ProxiesTest {
 
   @Test
   public void isNotASquare() {
+    Session session = null;
+    Transaction trx = null;
+    try {
+      session = HibernateUtil.getSessionFactory().openSession();
+      trx = session.beginTransaction();
+
+      Shape loadedSquare =
+          (Shape) session.load(Shape.class, squareId);
+
+      assertFalse(loadedSquare instanceof Square);
+
+      Shape gotSquare =
+          (Shape) session.get(Shape.class, squareId);
+      assertSame(loadedSquare, gotSquare);
+
+      trx.commit();
+    } catch (RuntimeException e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(session);
+    }
+  }
+
+  @Test
+  public void equalsBroken() {
     Session session = null;
     Transaction trx = null;
     try {

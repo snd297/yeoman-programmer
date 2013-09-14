@@ -25,7 +25,6 @@ import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 @Entity
 public class GetClassCar extends LongIdAndVersion {
   private String vin;
-  private String someField;
 
   /** For JPA. */
   GetClassCar() {}
@@ -73,14 +72,6 @@ public class GetClassCar extends LongIdAndVersion {
   @SuppressWarnings("unused")
   private void setVin(String vin) {
     this.vin = vin;
-  }
-
-  public String getSomeField() {
-    return someField;
-  }
-
-  public void setSomeField(String someField) {
-    this.someField = someField;
   }
 
 }

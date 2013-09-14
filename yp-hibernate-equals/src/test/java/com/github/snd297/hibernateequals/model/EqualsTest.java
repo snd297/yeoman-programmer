@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.github.snd297.yp.hibernateequals.model.BrokenEqualsCar;
 import com.github.snd297.yp.hibernateequals.model.Car;
+import com.github.snd297.yp.hibernateequals.model.FixedGetClassCar;
 import com.github.snd297.yp.hibernateequals.model.GetClassCar;
 import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
@@ -34,6 +35,7 @@ public class EqualsTest {
   private static String getClassCarVin;
   private static String brokenEqualsCarVin;
   private static String carVin;
+  private static String fixedGetClassCarVin;
 
   @BeforeClass
   public static void classSetup() throws Exception {
@@ -46,7 +48,6 @@ public class EqualsTest {
 
       GetClassCar getClassCar =
           new GetClassCar("H94H878YUIOHFGOH");
-      getClassCar.setSomeField("value");
       sess.save(getClassCar);
 
       BrokenEqualsCar brokenEqualsCar =
@@ -57,11 +58,16 @@ public class EqualsTest {
       Car car = new Car("KH08934U508YTUSZ0IDYGOAIH");
       sess.save(car);
 
+      FixedGetClassCar fixedGetClassCar =
+          new FixedGetClassCar("H94H878YUIOHFGOH");
+      sess.save(fixedGetClassCar);
+
       trx.commit();
 
       getClassCarVin = getClassCar.getVin();
       brokenEqualsCarVin = brokenEqualsCar.getVin();
       carVin = car.getVin();
+      fixedGetClassCarVin = fixedGetClassCar.getVin();
 
     } catch (Exception e) {
       HibernateUtil.rollbackQuietly(trx);
@@ -152,6 +158,35 @@ public class EqualsTest {
 
       trx.commit();
     } catch (Exception e) {
+      HibernateUtil.rollbackQuietly(trx);
+      throw e;
+    } finally {
+      HibernateUtil.closeQuietly(sess);
+    }
+  }
+
+  @Test
+  public void fixedGetClassEquals() {
+    Session sess = null;
+    Transaction trx = null;
+    try {
+      sess = HibernateUtil.getSessionFactory().openSession();
+      trx = sess.beginTransaction();
+
+      FixedGetClassCar car0 =
+          (FixedGetClassCar)
+          sess
+              .bySimpleNaturalId(FixedGetClassCar.class)
+              .getReference(fixedGetClassCarVin);
+
+      FixedGetClassCar car1 = new FixedGetClassCar(fixedGetClassCarVin);
+
+      assertTrue(car0 instanceof HibernateProxy);
+      assertTrue(car1.equals(car0));
+      assertTrue(car0.equals(car1));
+
+      trx.commit();
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {

@@ -21,19 +21,20 @@ import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.NaturalId;
 
 import com.github.snd297.yp.utils.hibernate.LongIdAndVersion;
 import com.google.common.base.Objects;
 
 @Entity
-public class Car extends LongIdAndVersion {
+public class FixedGetClassCar extends LongIdAndVersion {
   private String vin;
 
   /** For JPA. */
-  Car() {}
+  FixedGetClassCar() {}
 
-  public Car(String vin) {
+  public FixedGetClassCar(String vin) {
     this.vin = checkNotNull(vin);
   }
 
@@ -45,10 +46,10 @@ public class Car extends LongIdAndVersion {
     if (obj == null) {
       return false;
     }
-    if (!(obj instanceof Car)) {
+    if (!Hibernate.getClass(obj).equals(FixedGetClassCar.class)) {
       return false;
     }
-    Car other = (Car) obj;
+    FixedGetClassCar other = (FixedGetClassCar) obj;
     if (!Objects.equal(this.vin, other.getVin())) {
       return false;
     }
@@ -73,5 +74,4 @@ public class Car extends LongIdAndVersion {
   private void setVin(String vin) {
     this.vin = vin;
   }
-
 }

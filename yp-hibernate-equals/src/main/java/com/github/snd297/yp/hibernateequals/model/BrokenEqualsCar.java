@@ -15,6 +15,8 @@
  */
 package com.github.snd297.yp.hibernateequals.model;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
@@ -31,7 +33,7 @@ public class BrokenEqualsCar extends LongIdAndVersion {
   BrokenEqualsCar() {}
 
   public BrokenEqualsCar(String vin) {
-    this.vin = vin;
+    this.vin = checkNotNull(vin);
   }
 
   @Override

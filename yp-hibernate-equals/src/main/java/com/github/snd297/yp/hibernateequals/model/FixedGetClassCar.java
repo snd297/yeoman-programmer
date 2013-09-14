@@ -46,7 +46,7 @@ public class FixedGetClassCar extends LongIdAndVersion {
     if (obj == null) {
       return false;
     }
-    if (!Hibernate.getClass(obj).equals(FixedGetClassCar.class)) {
+    if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
       return false;
     }
     FixedGetClassCar other = (FixedGetClassCar) obj;

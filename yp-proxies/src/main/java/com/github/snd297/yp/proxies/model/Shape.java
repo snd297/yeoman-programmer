@@ -18,6 +18,7 @@ package com.github.snd297.yp.proxies.model;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -34,7 +35,7 @@ public abstract class Shape extends LongIdAndVersion {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) {
       return true;
     }
@@ -56,7 +57,7 @@ public abstract class Shape extends LongIdAndVersion {
   }
 
   @NaturalId
-  @Column(unique = true)
+  @Column
   @Nonnull
   public UUID getSsn() {
     return ssn;

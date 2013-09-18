@@ -15,7 +15,7 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import java.util.UUID;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.persistence.Entity;
 
@@ -27,7 +27,7 @@ public class Circle extends Shape {
   Circle() {}
 
   public Circle(Integer radius) {
-    this.radius = radius;
+    this.radius = checkNotNull(radius);
   }
 
   public Integer getRadius() {

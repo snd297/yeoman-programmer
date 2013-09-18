@@ -6,7 +6,7 @@
 		<artifactId>yp</artifactId>
 		<version>1.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>yp-proxies</artifactId>
+	<artifactId>yp-instanceof</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.snd297</groupId>

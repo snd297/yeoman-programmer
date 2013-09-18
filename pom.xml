@@ -29,7 +29,7 @@
 		<module>yp-hibernate-collections</module>
 		<module>yp-hibernate-many-to-many</module>
 		<module>yp-final-entities</module>
-		<module>yp-proxies</module>
+		<module>yp-instanceof</module>
 	</modules>
 
 	<dependencyManagement>

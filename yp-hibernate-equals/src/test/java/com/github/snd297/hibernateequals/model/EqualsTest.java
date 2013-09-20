@@ -18,6 +18,7 @@ package com.github.snd297.hibernateequals.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.proxy.HibernateProxy;
@@ -31,130 +32,161 @@ import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
 public class EqualsTest {
 
-  private static String getClassCarVin;
-  private static String brokenEqualsCarVin;
-  private static String carVin;
+	private static String getClassCarVin;
+	private static String brokenEqualsCarVin;
+	private static String carVin;
 
-  @BeforeClass
-  public static void classSetup() throws Exception {
-    Session sess = null;
-    Transaction trx = null;
-    try {
+	@BeforeClass
+	public static void classSetup() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		try {
 
-      sess = HibernateUtil.getSessionFactory().openSession();
-      trx = sess.beginTransaction();
+			sess = HibernateUtil.getSessionFactory().openSession();
+			trx = sess.beginTransaction();
 
-      GetClassCar getClassCar =
-          new GetClassCar("H94H878YUIOHFGOH");
-      sess.save(getClassCar);
+			GetClassCar getClassCar =
+					new GetClassCar("H94H878YUIOHFGOH");
+			sess.save(getClassCar);
 
-      BrokenEqualsCar brokenEqualsCar =
-          new BrokenEqualsCar("J398D8305HKDHG");
+			BrokenEqualsCar brokenEqualsCar =
+					new BrokenEqualsCar("J398D8305HKDHG");
 
-      sess.save(brokenEqualsCar);
+			sess.save(brokenEqualsCar);
 
-      Car car = new Car("KH08934U508YTUSZ0IDYGOAIH");
-      sess.save(car);
+			Car car = new Car("KH08934U508YTUSZ0IDYGOAIH");
+			sess.save(car);
 
-      trx.commit();
+			trx.commit();
 
-      getClassCarVin = getClassCar.getVin();
-      brokenEqualsCarVin = brokenEqualsCar.getVin();
-      carVin = car.getVin();
+			getClassCarVin = getClassCar.getVin();
+			brokenEqualsCarVin = brokenEqualsCar.getVin();
+			carVin = car.getVin();
 
-    } catch (Exception e) {
-      HibernateUtil.rollbackQuietly(trx);
-      throw e;
-    } finally {
-      HibernateUtil.closeQuietly(sess);
-    }
-  }
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
 
-  @Test
-  public void getClassEquals() throws Exception {
-    Session sess = null;
-    Transaction trx = null;
-    try {
-      sess = HibernateUtil.getSessionFactory().openSession();
-      trx = sess.beginTransaction();
+	@Test
+	public void getClassEquals() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			trx = sess.beginTransaction();
 
-      GetClassCar getClassCar0 =
-          (GetClassCar)
-          sess
-              .bySimpleNaturalId(GetClassCar.class)
-              .getReference(getClassCarVin);
-      GetClassCar getClassCar1 =
-          new GetClassCar(getClassCarVin);
+			GetClassCar getClassCar0 =
+					(GetClassCar)
+					sess
+							.bySimpleNaturalId(GetClassCar.class)
+							.getReference(getClassCarVin);
+			GetClassCar getClassCar1 =
+					new GetClassCar(getClassCarVin);
 
-      assertTrue(getClassCar0 instanceof HibernateProxy);
-      assertFalse(getClassCar1.equals(getClassCar0));
-      assertTrue(getClassCar0.equals(getClassCar1));
+			assertTrue(getClassCar0 instanceof HibernateProxy);
+			assertFalse(getClassCar1.equals(getClassCar0));
+			assertTrue(getClassCar0.equals(getClassCar1));
 
-      trx.commit();
-    } catch (Exception e) {
-      HibernateUtil.rollbackQuietly(trx);
-      throw e;
-    } finally {
-      HibernateUtil.closeQuietly(sess);
-    }
-  }
+			trx.commit();
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
 
-  @Test
-  public void brokenEquals() throws Exception {
-    Session sess = null;
-    Transaction trx = null;
-    try {
-      sess = HibernateUtil.getSessionFactory().openSession();
-      trx = sess.beginTransaction();
+	@Test
+	public void brokenEquals() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			trx = sess.beginTransaction();
 
-      BrokenEqualsCar brokenEqualsCar0 =
-          (BrokenEqualsCar)
-          sess
-              .bySimpleNaturalId(BrokenEqualsCar.class)
-              .getReference(brokenEqualsCarVin);
+			BrokenEqualsCar brokenEqualsCar0 =
+					(BrokenEqualsCar)
+					sess
+							.bySimpleNaturalId(BrokenEqualsCar.class)
+							.getReference(brokenEqualsCarVin);
 
-      BrokenEqualsCar brokenEqualsCar1 =
-          new BrokenEqualsCar(brokenEqualsCarVin);
+			BrokenEqualsCar brokenEqualsCar1 =
+					new BrokenEqualsCar(brokenEqualsCarVin);
 
-      assertTrue(brokenEqualsCar0 instanceof HibernateProxy);
-      assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
-      assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
+			assertTrue(brokenEqualsCar0 instanceof HibernateProxy);
+			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
+			assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
 
-      trx.commit();
-    } catch (Exception e) {
-      HibernateUtil.rollbackQuietly(trx);
-      throw e;
-    } finally {
-      HibernateUtil.closeQuietly(sess);
-    }
-  }
+			trx.commit();
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
 
-  @Test
-  public void fixedEquals() throws Exception {
-    Session sess = null;
-    Transaction trx = null;
-    try {
-      sess = HibernateUtil.getSessionFactory().openSession();
-      trx = sess.beginTransaction();
+	@Test
+	public void brokenEqualsInitializedProxy() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			trx = sess.beginTransaction();
 
-      Car car0 =
-          (Car)
-          sess
-              .bySimpleNaturalId(Car.class)
-              .getReference(carVin);
+			BrokenEqualsCar brokenEqualsCar0 =
+					(BrokenEqualsCar)
+					sess
+							.bySimpleNaturalId(BrokenEqualsCar.class)
+							.getReference(brokenEqualsCarVin);
+			Hibernate.initialize(brokenEqualsCar0);
 
-      Car car1 = new Car(carVin);
+			BrokenEqualsCar brokenEqualsCar1 =
+					new BrokenEqualsCar(brokenEqualsCarVin);
 
-      assertTrue(car0 instanceof HibernateProxy);
-      assertTrue(car1.equals(car0));
-      assertTrue(car0.equals(car1));
+			assertTrue(brokenEqualsCar0 instanceof HibernateProxy);
+			assertFalse(brokenEqualsCar1.equals(brokenEqualsCar0));
+			assertTrue(brokenEqualsCar0.equals(brokenEqualsCar1));
 
-      trx.commit();
-    } catch (Exception e) {
-      HibernateUtil.rollbackQuietly(trx);
-      throw e;
-    } finally {
-      HibernateUtil.closeQuietly(sess);
-    }
-  }
+			trx.commit();
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
+
+	@Test
+	public void fixedEquals() throws Exception {
+		Session sess = null;
+		Transaction trx = null;
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			trx = sess.beginTransaction();
+
+			Car car0 =
+					(Car)
+					sess
+							.bySimpleNaturalId(Car.class)
+							.getReference(carVin);
+
+			Car car1 = new Car(carVin);
+
+			assertTrue(car0 instanceof HibernateProxy);
+			assertTrue(car1.equals(car0));
+			assertTrue(car0.equals(car1));
+
+			trx.commit();
+		} catch (Exception e) {
+			HibernateUtil.rollbackQuietly(trx);
+			throw e;
+		} finally {
+			HibernateUtil.closeQuietly(sess);
+		}
+	}
 }

@@ -4,7 +4,6 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<mapping class="com.github.snd297.yp.hibernateequals.model.FixedGetClassCar" />
 		<mapping class="com.github.snd297.yp.hibernateequals.model.GetClassCar" />
 		<mapping class="com.github.snd297.yp.hibernateequals.model.BrokenEqualsCar" />
 		<mapping class="com.github.snd297.yp.hibernateequals.model.Car" />

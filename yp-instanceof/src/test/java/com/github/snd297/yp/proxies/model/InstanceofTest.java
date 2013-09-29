@@ -158,7 +158,7 @@ public class InstanceofTest {
       trx = session.beginTransaction();
 
       Shape loadedSquare =
-          (Shape) session.load(Shape.class, squareId);
+          (Shape) session.load(Square.class, squareId);
 
       assertFalse(loadedSquare instanceof Square);
 

@@ -18,8 +18,8 @@ package com.github.snd297.yp.proxies.model;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Circle extends Shape {
@@ -32,7 +32,7 @@ public class Circle extends Shape {
     this.radius = checkNotNull(radius);
   }
 
-  @Size(min = 1)
+  @Min(1)
   @NotNull
   public Integer getRadius() {
     return radius;

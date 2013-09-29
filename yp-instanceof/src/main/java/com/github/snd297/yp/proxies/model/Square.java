@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Square extends Shape {
@@ -34,7 +34,7 @@ public class Square extends Shape {
     checkArgument(sideLength >= 1);
   }
 
-  @Size(min = 1)
+  @Min(1)
   @NotNull
   public Integer getSideLength() {
     return sideLength;

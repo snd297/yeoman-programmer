@@ -135,6 +135,7 @@ public class InstanceofTest {
       Shape gotSquare =
           (Shape) session.get(Shape.class, squareId);
       assertTrue(gotSquare instanceof Square);
+      assertFalse(gotSquare instanceof HibernateProxy);
 
       Shape loadedSquare =
           (Shape) session.load(Shape.class, squareId);
@@ -158,9 +159,9 @@ public class InstanceofTest {
       trx = session.beginTransaction();
 
       Shape loadedSquare =
-          (Shape) session.load(Square.class, squareId);
-
+          (Shape) session.load(Shape.class, squareId);
       assertFalse(loadedSquare instanceof Square);
+      assertTrue(loadedSquare instanceof HibernateProxy);
 
       Shape gotSquare =
           (Shape) session.get(Shape.class, squareId);

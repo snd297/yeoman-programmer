@@ -18,7 +18,7 @@ package com.github.snd297.yp.proxies.model;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +33,7 @@ import org.junit.Test;
 
 import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
-public class ProxiesTest {
+public class InstanceofTest {
 
   private static Long squareId;
   private static Long circleId;
@@ -74,30 +74,48 @@ public class ProxiesTest {
 
       Shape squareShape =
           (Shape) session.load(Shape.class, squareId);
-      assertFalse(squareShape instanceof Square);
+      assertTrue(squareShape instanceof HibernateProxy);
+      Hibernate.initialize(squareShape);
 
       Shape circleShape =
           (Shape) session.load(Shape.class, circleId);
-      assertFalse(circleShape instanceof Circle);
+      assertTrue(circleShape instanceof HibernateProxy);
+      Hibernate.initialize(circleShape);
 
       List<Shape> shapes = newArrayList(squareShape, circleShape);
-
+      boolean foundSquare = false, foundCircle = false;
       for (Shape shape : shapes) {
         if (Hibernate.getClass(shape).equals(Square.class)) {
           Square square = (Square) session.load(Square.class, shape.getId());
-          assertEquals(shape, square);
-          assertNotSame(shape, square);
           assertTrue(square instanceof HibernateProxy);
-          assertTrue(square instanceof Shape);
+          Hibernate.initialize(square);
+
+          // This is something to be aware of, this is why we get the warning:
+          // HHH000179: Narrowing proxy to class
+          // com.github.snd297.yp.proxies.model.Square - this operation breaks
+          // ==
+          assertNotEquals(shape, square);
+          assertEquals(shape.getId(), square.getId());
+
+          foundSquare = true;
         } else if (Hibernate.getClass(shape).equals(Circle.class)) {
           Circle circle = (Circle) session.load(Circle.class, shape.getId());
-          assertEquals(shape, circle);
-          assertNotSame(shape, circle);
           assertTrue(circle instanceof HibernateProxy);
-          assertTrue(circle instanceof Shape);
+          Hibernate.initialize(circle);
+
+          // This is something to be aware of, this is why we get the warning:
+          // HHH000179: Narrowing proxy to class
+          // com.github.snd297.yp.proxies.model.Circle - this operation breaks
+          // ==
+          assertNotEquals(shape, circle);
+          assertEquals(shape.getId(), circle.getId());
+
+          foundCircle = true;
         }
       }
       trx.commit();
+      assertTrue(foundSquare);
+      assertTrue(foundCircle);
     } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;

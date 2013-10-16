@@ -83,21 +83,22 @@ public class InstanceofTest {
       Hibernate.initialize(circleShape);
 
       List<Shape> shapes = newArrayList(squareShape, circleShape);
-      boolean foundSquare = false, foundCircle = false;
+      boolean foundRectangle = false, foundCircle = false;
       for (Shape shape : shapes) {
         if (Rectangle.class.isAssignableFrom(Hibernate.getClass(shape))) {
-          Rectangle rectangle = (Rectangle) session.load(Rectangle.class, shape.getId());
-          assertTrue(rectangle instanceof HibernateProxy);
-          Hibernate.initialize(rectangle);
+          Rectangle squareRectangle = (Rectangle) session.load(Rectangle.class,
+              shape.getId());
+          assertTrue(squareRectangle instanceof HibernateProxy);
+          Hibernate.initialize(squareRectangle);
 
           // This is something to be aware of, this is why we get the warning:
           // HHH000179: Narrowing proxy to class
           // com.github.snd297.yp.proxies.model.Square - this operation breaks
           // ==
-          assertNotEquals(shape, rectangle);
-          assertEquals(shape.getId(), rectangle.getId());
+          assertNotEquals(shape, squareRectangle);
+          assertEquals(shape.getId(), squareRectangle.getId());
 
-          foundSquare = true;
+          foundRectangle = true;
         } else if (Circle.class.isAssignableFrom(Hibernate.getClass(shape))) {
           Circle circle = (Circle) session.load(Circle.class, shape.getId());
           assertTrue(circle instanceof HibernateProxy);
@@ -114,7 +115,7 @@ public class InstanceofTest {
         }
       }
       trx.commit();
-      assertTrue(foundSquare);
+      assertTrue(foundRectangle);
       assertTrue(foundCircle);
     } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);

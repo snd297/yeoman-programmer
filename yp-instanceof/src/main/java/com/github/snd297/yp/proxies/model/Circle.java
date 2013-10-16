@@ -15,6 +15,8 @@
  */
 package com.github.snd297.yp.proxies.model;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import javax.persistence.Entity;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,7 @@ public class Circle extends Shape {
   Circle() {}
 
   public Circle(int radius) {
+    checkArgument(radius >= 1);
     this.radius = radius;
   }
 

@@ -15,33 +15,15 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import javax.persistence.Entity;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Entity
-public class Square extends Shape {
-
-  private Integer sideLength;
+public class Square extends Rectangle {
 
   Square() {}
 
-  public Square(Integer sideLength) {
-    this.sideLength = checkNotNull(sideLength);
-    checkArgument(sideLength >= 1);
-  }
-
-  @Min(1)
-  @NotNull
-  public Integer getSideLength() {
-    return sideLength;
-  }
-
-  public void setSideLength(Integer sideLength) {
-    this.sideLength = sideLength;
+  public Square(int length) {
+    super(length, length);
   }
 
 }

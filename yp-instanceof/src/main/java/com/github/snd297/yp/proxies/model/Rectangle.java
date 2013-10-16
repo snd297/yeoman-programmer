@@ -15,10 +15,49 @@
  */
 package com.github.snd297.yp.proxies.model;
 
-/**
- * @author sam
- *
- */
-public class Rectangle {
+import static com.google.common.base.Preconditions.checkArgument;
+
+import javax.persistence.Entity;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+@Entity
+public class Rectangle extends Shape {
+
+  private Integer length;
+  private Integer width;
+
+  Rectangle() {}
+
+  public Rectangle(
+      int length,
+      int width) {
+    checkArgument(length >= 1);
+    checkArgument(width >= 1);
+    this.length = length;
+    this.width = width;
+  }
+
+  @Min(1)
+  @NotNull
+  public Integer getLength() {
+    return length;
+  }
+
+  @SuppressWarnings("unused")
+  private void setLength(Integer length) {
+    this.length = length;
+  }
+
+  @Min(1)
+  @NotNull
+  public Integer getWidth() {
+    return width;
+  }
+
+  @SuppressWarnings("unused")
+  private void setWidth(Integer width) {
+    this.width = width;
+  }
 
 }

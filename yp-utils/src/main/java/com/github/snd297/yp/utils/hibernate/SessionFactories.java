@@ -116,9 +116,10 @@ public final class SessionFactories {
                     + "-hibernate.cfg.xml");
               }
 
-              ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
-                  .applySettings(config.getProperties())
-                  .buildServiceRegistry();
+              ServiceRegistry serviceRegistry =
+                  new ServiceRegistryBuilder()
+                      .applySettings(config.getProperties())
+                      .build();
               SessionFactory sessionFactory = config
                   .buildSessionFactory(serviceRegistry);
               configs.put(sessFacKey, config);

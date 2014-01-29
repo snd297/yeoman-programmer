@@ -25,10 +25,10 @@ import java.util.concurrent.ConcurrentMap;
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,7 +117,7 @@ public final class SessionFactories {
               }
 
               ServiceRegistry serviceRegistry =
-                  new ServiceRegistryBuilder()
+                  new StandardServiceRegistryBuilder()
                       .applySettings(config.getProperties())
                       .build();
               SessionFactory sessionFactory = config

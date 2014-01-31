@@ -22,17 +22,25 @@ import org.junit.Test;
 
 import com.github.snd297.yp.abstractequals.ColorPoint.Color;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author Sam Donnelly
  */
 public class AbstractEqualsTest {
 
+  @SuppressFBWarnings(
+      value = "EC_UNRELATED_TYPES",
+      justification = "Impressively, FindBugs detects something is wrong, though its diagnosis is incorrect")
   @Test
   public void testEquals() {
     ColorPoint cp = new ColorPoint(2, 3, Color.RED);
     PointNoEquals pne = new PointNoEquals(2, 3);
 
     // breaks symmetry
+    if (pne.equals(cp)) {
+      System.out.println("yo");
+    }
     assertTrue(pne.equals(cp));
     assertFalse(cp.equals(pne));
 

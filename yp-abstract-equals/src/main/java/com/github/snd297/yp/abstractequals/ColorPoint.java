@@ -3,6 +3,8 @@
  */
 package com.github.snd297.yp.abstractequals;
 
+import javax.annotation.Nullable;
+
 public class ColorPoint extends AbstractPoint {
 
   public enum Color {
@@ -19,7 +21,15 @@ public class ColorPoint extends AbstractPoint {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((color == null) ? 0 : color.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) {
       return true;
     }
@@ -34,14 +44,6 @@ public class ColorPoint extends AbstractPoint {
       return false;
     }
     return true;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((color == null) ? 0 : color.hashCode());
-    return result;
   }
 
 }

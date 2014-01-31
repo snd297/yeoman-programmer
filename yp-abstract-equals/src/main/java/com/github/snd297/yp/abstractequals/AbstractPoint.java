@@ -3,6 +3,8 @@
  */
 package com.github.snd297.yp.abstractequals;
 
+import javax.annotation.Nullable;
+
 public abstract class AbstractPoint {
 
   private final int x;
@@ -35,7 +37,7 @@ public abstract class AbstractPoint {
    * coordinates.
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) {
       return true;
     }

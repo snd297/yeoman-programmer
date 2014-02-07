@@ -51,7 +51,7 @@ public class PublicCollectionTest {
   private static Long bandFkId;
 
   @BeforeClass
-  public static void classSetup() throws Exception {
+  public static void classSetup() {
     Session sess = null;
     Transaction trx = null;
     try {
@@ -98,7 +98,7 @@ public class PublicCollectionTest {
 
       trx.commit();
 
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -107,7 +107,7 @@ public class PublicCollectionTest {
   }
 
   @Test(expected = HibernateException.class)
-  public void orphanedCollection() throws Exception {
+  public void orphanedCollection() {
     Session sess = null;
     Transaction trx = null;
     try {
@@ -142,8 +142,7 @@ public class PublicCollectionTest {
                 "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BadBicycle.wheels"));
         throw he;
       }
-
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -152,7 +151,7 @@ public class PublicCollectionTest {
   }
 
   @Test
-  public void fixedCollection() throws Exception {
+  public void fixedCollection() {
     Session sess = null;
     Transaction trx = null;
     Long newWheel0Id = null;
@@ -183,7 +182,7 @@ public class PublicCollectionTest {
       newWheel0Id = newWheel0.getId();
       newWheel1Id = newWheel1.getId();
 
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -207,7 +206,7 @@ public class PublicCollectionTest {
           compose(equalTo(newWheel1Id), IHasLongId.getId), null));
 
       trx.commit();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
@@ -216,7 +215,7 @@ public class PublicCollectionTest {
   }
 
   @Test(expected = HibernateException.class)
-  public void bandOwningSide() throws Exception {
+  public void bandOwningSide() {
     Session sess = null;
     Transaction trx = null;
     try {
@@ -247,17 +246,16 @@ public class PublicCollectionTest {
                 "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BandOwningSide.members"));
         throw he;
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {
       HibernateUtil.closeQuietly(sess);
     }
-
   }
 
   @Test(expected = HibernateException.class)
-  public void bandFk() throws Exception {
+  public void bandFk() {
     Session sess = null;
     Transaction trx = null;
     try {
@@ -291,7 +289,7 @@ public class PublicCollectionTest {
                 "A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.github.snd297.yp.hibernatecollections.model.BandWithForeignKey.members"));
         throw he;
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       HibernateUtil.rollbackQuietly(trx);
       throw e;
     } finally {

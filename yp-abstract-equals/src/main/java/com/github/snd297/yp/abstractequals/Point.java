@@ -16,8 +16,10 @@
 package com.github.snd297.yp.abstractequals;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
-public class Point extends AbstractPoint {
+@Immutable
+public final class Point extends AbstractPoint {
   public Point(int x, int y) {
     super(x, y);
   }

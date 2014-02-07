@@ -3,9 +3,13 @@
  */
 package com.github.snd297.yp.abstractequals;
 
-import javax.annotation.Nullable;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ColorPoint extends AbstractPoint {
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
+@Immutable
+public final class ColorPoint extends AbstractPoint {
 
   public enum Color {
     RED,
@@ -13,19 +17,11 @@ public class ColorPoint extends AbstractPoint {
     GREEN
   }
 
-  private Color color;
+  private final Color color;
 
   public ColorPoint(int x, int y, Color color) {
     super(x, y);
-    this.color = color;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((color == null) ? 0 : color.hashCode());
-    return result;
+    this.color = checkNotNull(color);
   }
 
   @Override
@@ -44,6 +40,18 @@ public class ColorPoint extends AbstractPoint {
       return false;
     }
     return true;
+  }
+
+  public Color getColor() {
+    return color;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((color == null) ? 0 : color.hashCode());
+    return result;
   }
 
 }

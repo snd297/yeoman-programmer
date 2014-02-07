@@ -38,9 +38,6 @@ public class AbstractEqualsTest {
     PointNoEquals pne = new PointNoEquals(2, 3);
 
     // breaks symmetry
-    if (pne.equals(cp)) {
-      System.out.println("yo");
-    }
     assertTrue(pne.equals(cp));
     assertFalse(cp.equals(pne));
 

@@ -15,7 +15,7 @@
  */
 package com.github.snd297.yp.abstractequals;
 
-public class PointNoEquals extends AbstractPoint {
+public final class PointNoEquals extends AbstractPoint {
 
   public PointNoEquals(int x, int y) {
     super(x, y);

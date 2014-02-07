@@ -15,9 +15,6 @@
  */
 package com.github.snd297.yp.abstractequals;
 
-/**
- * @author Sam Donnelly
- */
 public class PointNoEquals extends AbstractPoint {
 
   public PointNoEquals(int x, int y) {

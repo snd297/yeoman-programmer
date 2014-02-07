@@ -17,10 +17,6 @@ package com.github.snd297.yp.abstractequals;
 
 import javax.annotation.Nullable;
 
-/**
- * @author sam
- * 
- */
 public class Point extends AbstractPoint {
   public Point(int x, int y) {
     super(x, y);

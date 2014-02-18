@@ -33,13 +33,18 @@ public class AbstractEqualsTest {
       value = "EC_UNRELATED_TYPES",
       justification = "Impressively, FindBugs detects something is wrong, though its diagnosis is incorrect")
   @Test
-  public void testEquals() {
+  public void brokenSymmetry() {
     ColorPoint cp = new ColorPoint(2, 3, Color.RED);
     PointNoEquals pne = new PointNoEquals(2, 3);
 
     // breaks symmetry
     assertTrue(pne.equals(cp));
     assertFalse(cp.equals(pne));
+  }
+
+  @Test
+  public void fixedSymmetry() {
+    ColorPoint cp = new ColorPoint(2, 3, Color.RED);
 
     Point p1 = new Point(2, 3);
     Point p2 = new Point(2, 3);

@@ -71,6 +71,5 @@ public class AbstractEqualsTest {
 
     // equals(null) is false
     assertFalse(p1.equals(null));
-
   }
 }

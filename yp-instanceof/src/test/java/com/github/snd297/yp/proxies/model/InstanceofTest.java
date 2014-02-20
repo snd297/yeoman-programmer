@@ -85,7 +85,7 @@ public class InstanceofTest {
       List<Shape> shapes = newArrayList(squareShape, circleShape);
       boolean foundRectangle = false, foundCircle = false;
       for (Shape shape : shapes) {
-        if (Rectangle.class.isAssignableFrom(Hibernate.getClass(shape))) {
+        if (HibernateUtil.isInstanceOf(shape, Rectangle.class)) {
           Rectangle squareRectangle = (Rectangle) session.load(Rectangle.class,
               shape.getId());
           assertTrue(squareRectangle instanceof HibernateProxy);
@@ -99,7 +99,7 @@ public class InstanceofTest {
           assertEquals(shape.getId(), squareRectangle.getId());
 
           foundRectangle = true;
-        } else if (Circle.class.isAssignableFrom(Hibernate.getClass(shape))) {
+        } else if (HibernateUtil.isInstanceOf(shape, Circle.class)) {
           Circle circle = (Circle) session.load(Circle.class, shape.getId());
           assertTrue(circle instanceof HibernateProxy);
           Hibernate.initialize(circle);

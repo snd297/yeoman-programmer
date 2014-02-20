@@ -21,6 +21,7 @@ import java.util.Properties;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -81,6 +82,14 @@ public class HibernateUtil {
     return sessFacsSupplier.get().getSessionFactory(sessFacKey);
   }
 
+  public static boolean isInstanceOf(
+      Object entity,
+      Class<?> clazz) {
+    Class<?> entityClass = Hibernate.getClass(entity);
+    boolean isInstanceOf = clazz.isAssignableFrom(entityClass);
+    return isInstanceOf;
+  }
+
   public static void putConfigProps(Properties props) {
     sessFacsSupplier.get().putConfigProps(props);
   }
@@ -106,5 +115,4 @@ public class HibernateUtil {
   private HibernateUtil() {
     throw new AssertionError();
   }
-
 }

@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
-public class ColorPoint extends AbstractPoint {
+public final class ColorPoint extends AbstractPoint {
 
   public enum Color {
     RED,

@@ -20,6 +20,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.github.snd297.yp.abstractequals.ColorPoint;
+import com.github.snd297.yp.abstractequals.Point;
+import com.github.snd297.yp.abstractequals.PointNoEquals;
 import com.github.snd297.yp.abstractequals.ColorPoint.Color;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

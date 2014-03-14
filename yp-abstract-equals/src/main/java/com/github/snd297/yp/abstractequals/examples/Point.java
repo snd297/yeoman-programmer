@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.snd297.examples;
+package com.github.snd297.yp.abstractequals.examples;
 
 import javax.annotation.concurrent.Immutable;
 

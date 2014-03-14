@@ -82,9 +82,7 @@ public class HibernateUtil {
     return sessFacsSupplier.get().getSessionFactory(sessFacKey);
   }
 
-  public static boolean isInstanceOf(
-      Object entity,
-      Class<?> clazz) {
+  public static boolean isInstanceOf(Object entity, Class<?> clazz) {
     Class<?> entityClass = Hibernate.getClass(entity);
     boolean isInstanceOf = clazz.isAssignableFrom(entityClass);
     return isInstanceOf;

@@ -1,7 +1,7 @@
 /*
  * Lifted from Joshua Bloch's Effective Java.
  */
-package com.github.snd297.examples;
+package com.github.snd297.yp.abstractequals.examples;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

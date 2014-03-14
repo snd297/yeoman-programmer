@@ -22,8 +22,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-import com.github.snd297.yp.manymany.model.Employee;
-import com.github.snd297.yp.manymany.model.Project;
+import com.github.snd297.yp.manymany.persistence.Employee;
+import com.github.snd297.yp.manymany.persistence.Project;
 import com.github.snd297.yp.utils.hibernate.HibernateUtil;
 
 public class ManyToManyTest {

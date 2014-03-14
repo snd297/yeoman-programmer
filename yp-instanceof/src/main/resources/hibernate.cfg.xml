@@ -4,9 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<mapping class="com.github.snd297.yp.proxies.model.Circle" />
-		<mapping class="com.github.snd297.yp.proxies.model.Rectangle" />
-		<mapping class="com.github.snd297.yp.proxies.model.Shape" />
-		<mapping class="com.github.snd297.yp.proxies.model.Square" />
+		<mapping class="com.github.snd297.yp.proxies.persistence.Circle" />
+		<mapping class="com.github.snd297.yp.proxies.persistence.Rectangle" />
+		<mapping class="com.github.snd297.yp.proxies.persistence.Shape" />
+		<mapping class="com.github.snd297.yp.proxies.persistence.Square" />
 	</session-factory>
 </hibernate-configuration>

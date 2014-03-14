@@ -4,21 +4,21 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<mapping class="com.github.snd297.yp.hibernatecollections.model.BadBicycle" />
+		<mapping class="com.github.snd297.yp.hibernatecollections.persistence.BadBicycle" />
 		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.WheelInBadBicycle" />
+			class="com.github.snd297.yp.hibernatecollections.persistence.WheelInBadBicycle" />
 
-		<mapping class="com.github.snd297.yp.hibernatecollections.model.Bicycle" />
-		<mapping class="com.github.snd297.yp.hibernatecollections.model.Wheel" />
-
-		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.BandOwningSide" />
-		<mapping class="com.github.snd297.yp.hibernatecollections.model.BandMember" />
+		<mapping class="com.github.snd297.yp.hibernatecollections.persistence.Bicycle" />
+		<mapping class="com.github.snd297.yp.hibernatecollections.persistence.Wheel" />
 
 		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.BandWithForeignKey" />
+			class="com.github.snd297.yp.hibernatecollections.persistence.BandOwningSide" />
+		<mapping class="com.github.snd297.yp.hibernatecollections.persistence.BandMember" />
+
 		<mapping
-			class="com.github.snd297.yp.hibernatecollections.model.BandMemberWithForeignKey" />
+			class="com.github.snd297.yp.hibernatecollections.persistence.BandWithForeignKey" />
+		<mapping
+			class="com.github.snd297.yp.hibernatecollections.persistence.BandMemberWithForeignKey" />
 
 	</session-factory>
 </hibernate-configuration>
